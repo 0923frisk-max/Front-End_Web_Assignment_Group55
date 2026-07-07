@@ -3,6 +3,7 @@
 Report Link (UTAR mail Only) - https://docs.google.com/document/d/1endgfcH_05HCC2ahHpPQhKAsT3bjCuygVv26oCUnazk/edit?usp=sharing <br>
 Canva Presentation Link -  
 
+
 ## Web Development Arrangement
 <pre>
 1 Home(Root)
@@ -10,8 +11,8 @@ Canva Presentation Link -
 3     |_____ User Profile
 4     |_____ User Subscription / Noticfication 
 5     |_____ Event Schedules 
-6     |_____ Team Rankings
-7         |_____ Players Profile 
+6     |_____ Team Rankings ===> LYC
+7         |_____ Players Profile ===> LYC  
 8     |_____ Contact Us / About Us
 9     |_____ Tickect Purchasing
 </pre>
