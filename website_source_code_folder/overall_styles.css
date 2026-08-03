@@ -1,0 +1,26 @@
+html {
+  background-color: #1e1e1e; 
+  min-height: 100%; 
+  color: white;
+}
+
+body {
+  margin: 0; 
+  padding: 0;
+}
+
+
+#Banner{
+
+  color: lightblue;
+
+}
+
+
+
+#Navigator{
+
+  color: lightcoral;
+  display: flex;
+  
+}
