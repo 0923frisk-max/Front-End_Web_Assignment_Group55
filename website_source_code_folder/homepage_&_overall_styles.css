@@ -1,0 +1,51 @@
+html {
+  background-color: black; 
+  min-height: 100%; 
+  color: white;
+}
+
+body {
+  margin: 0; 
+  padding: 0;
+}
+
+
+/*
+Screen size
+*/
+
+.Banner{
+
+  background-color: lightblue;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.banner_item{
+
+
+  width: 10%;
+
+  height: 10%;
+}
+
+
+
+.Navigator{
+  background-color: blue;
+  display: flex;  
+
+}
+
+.navi_item{
+  background-color: #f1f1f1;
+  
+  margin: 10px;
+  padding: 20px;
+  
+  font-size: 15px;
+  font-family: 'Times New Roman', Times, serif;
+
+  text-decoration: none;
+}
