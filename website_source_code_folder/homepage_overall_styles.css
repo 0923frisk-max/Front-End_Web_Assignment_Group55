@@ -16,7 +16,7 @@ Screen size
 
 .Banner{
 
-  background-color: lightblue;
+  background-color: darkorange;
 
   display: flex;
   justify-content: space-between;
@@ -32,7 +32,7 @@ Screen size
 
 
 .Navigator{
-  background-color: blue;
+  background-color: darkblue;
   display: flex;  
 
 }
