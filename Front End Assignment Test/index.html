@@ -1,279 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APEX FORCE ESPORT - CS2 League Malaysia</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEX FORCE ESPORT - CS2 League Malaysia</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <div class="container">
-    <a class="navbar-brand" href="index.html">
-      <img src="Image Folder/Club Logo/our_logo.jpg" alt="APEX FORCE ESPORT">
-      APEX<span>FORCE</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link active" href="index.html" data-page="home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="ranking.html" data-page="rankings">Rankings</a></li>
-        <li class="nav-item"><a class="nav-link" href="events.html" data-page="events">Events</a></li>
-        <li class="nav-item"><a class="nav-link" href="players.html" data-page="players">Players</a></li>
-        <li class="nav-item"><a class="nav-link" href="tickets.html" data-page="shop">Tickets</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html" data-page="about">About</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-2" id="navAuth">
-        <a href="login.html" class="btn-outline-custom">Login</a>
-      </div>
-      <div class="d-none align-items-center gap-3" id="navUser">
-        <button class="btn-outline-custom position-relative" onclick="toggleCart()">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
-        </button>
-        <div class="dropdown">
-          <img src="" id="navAvatar" class="rounded-circle" style="width:36px;height:36px;cursor:pointer;object-fit:cover;border:2px solid var(--primary)" data-bs-toggle="dropdown">
-          <ul class="dropdown-menu dropdown-menu-end" style="background:var(--bg-card);border:1px solid var(--border)">
-            <li><a class="dropdown-item" style="color:var(--text-primary)" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
-            <li><a class="dropdown-item" style="color:var(--text-primary)" href="subscription.html"><i class="fas fa-bell me-2"></i>Subscriptions</a></li>
-            <li><hr class="dropdown-divider" style="border-color:var(--border)"></li>
-            <li><a class="dropdown-item" style="color:var(--danger)" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-          </ul>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="Image Folder/Club Logo/our_logo.jpg" alt="APEX FORCE ESPORT">
+        APEX<span>FORCE</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html" data-page="home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="ranking.html" data-page="rankings">Rankings</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html" data-page="events">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="players.html" data-page="players">Players</a></li>
+          <li class="nav-item"><a class="nav-link" href="tickets.html" data-page="shop">Tickets</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html" data-page="about">About</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2" id="navAuth">
+          <a href="login.html" class="btn-outline-custom">Login</a>
         </div>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<!-- TOAST -->
-<div class="toast-custom" id="toast"><span id="toastMsg"></span></div>
-
-<!-- CART DRAWER -->
-<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-<div class="cart-drawer" id="cartDrawer">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h5 class="mb-0"><i class="fas fa-shopping-cart me-2" style="color:var(--primary)"></i>Your Cart</h5>
-    <button class="btn-close" onclick="toggleCart()"></button>
-  </div>
-  <div id="cartItems"></div>
-  <div class="mt-4 pt-3" style="border-top:1px solid var(--border)">
-    <div class="d-flex justify-content-between mb-3">
-      <span>Total:</span>
-      <strong id="cartTotal" style="color:var(--primary);font-size:1.2rem">RM 0.00</strong>
-    </div>
-    <button class="btn-primary-custom w-100" onclick="checkout()">Checkout</button>
-  </div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-banner-bg" style="background-image:url('Image Folder/Banner Image/CS2banner.png')"></div>
-  <div class="container hero-content">
-    <div class="row">
-      <div class="col-lg-8">
-        <span class="badge mb-3" style="background:rgba(255,107,0,0.2);color:var(--primary);padding:8px 16px;border-radius:20px">
-          <i class="fas fa-fire me-1"></i> SEASON 2026 NOW LIVE
-        </span>
-        <h1>Malaysia's Premier <span class="highlight">CS2</span> Esports League</h1>
-        <p>Discover top talent, compete in national tournaments, and join the fastest growing Counter-Strike 2 community in Malaysia. Rank up, get sponsored, and represent MY on the world stage.</p>
-        <div class="d-flex gap-3 flex-wrap">
-          <a href="events.html" class="btn-primary-custom"><i class="fas fa-trophy me-2"></i>View Tournaments</a>
-          <a href="login.html" class="btn-outline-custom"><i class="fas fa-user-plus me-2"></i>Join Now</a>
-        </div>
-        <div class="hero-badges">
-          <div class="hero-badge"><div class="num" id="statTeams">0</div><div class="label">Pro Teams</div></div>
-          <div class="hero-badge"><div class="num" id="statPlayers">0</div><div class="label">Players</div></div>
-          <div class="hero-badge"><div class="num" id="statEvents">0</div><div class="label">Events</div></div>
-          <div class="hero-badge"><div class="num">RM 500K+</div><div class="label">Prize Pool</div></div>
+        <div class="d-none align-items-center gap-3" id="navUser">
+          <button class="btn-outline-custom position-relative" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              id="cartCount">0</span>
+          </button>
+          <div class="dropdown">
+            <img src="" id="navAvatar" class="rounded-circle"
+              style="width:36px;height:36px;cursor:pointer;object-fit:cover;border:2px solid var(--primary)"
+              data-bs-toggle="dropdown">
+            <ul class="dropdown-menu dropdown-menu-end"
+              style="background:var(--bg-card);border:1px solid var(--border)">
+              <li><a class="dropdown-item" style="color:var(--text-primary)" href="profile.html"><i
+                    class="fas fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" style="color:var(--text-primary)" href="subscription.html"><i
+                    class="fas fa-bell me-2"></i>Subscriptions</a></li>
+              <li>
+                <hr class="dropdown-divider" style="border-color:var(--border)">
+              </li>
+              <li><a class="dropdown-item" style="color:var(--danger)" href="#" onclick="logout()"><i
+                    class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </nav>
 
-<!-- UPCOMING EVENTS -->
-<section>
-  <div class="container">
-    <h2 class="section-title">Upcoming <span>Events</span></h2>
-    <p class="section-subtitle">Don't miss out on the biggest CS2 tournaments in Malaysia</p>
-    <div class="row g-4" id="homeEvents"></div>
-    <div class="text-center mt-4">
-      <a href="events.html" class="btn-outline-custom">View All Events <i class="fas fa-arrow-right ms-2"></i></a>
-    </div>
-  </div>
-</section>
+  <!-- TOAST -->
+  <div class="toast-custom" id="toast"><span id="toastMsg"></span></div>
 
-<!-- TOP RANKINGS -->
-<section style="background:var(--bg-darker)">
-  <div class="container">
-    <h2 class="section-title">Top <span>Rankings</span></h2>
-    <p class="section-subtitle">The best teams competing in Malaysia this season</p>
-    <div class="table-responsive">
-      <table class="table table-custom table-hover">
-        <thead><tr><th>Rank</th><th>Team</th><th>Points</th><th>W/L</th><th>Win Rate</th><th>Region</th></tr></thead>
-        <tbody id="homeRankings"></tbody>
-      </table>
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="mb-0"><i class="fas fa-shopping-cart me-2" style="color:var(--primary)"></i>Your Cart</h5>
+      <button class="btn-close" onclick="toggleCart()"></button>
     </div>
-    <div class="text-center mt-4">
-      <a href="ranking.html" class="btn-outline-custom">View Full Rankings <i class="fas fa-arrow-right ms-2"></i></a>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURED PLAYERS -->
-<section>
-  <div class="container">
-    <h2 class="section-title">Featured <span>Players</span></h2>
-    <p class="section-subtitle">Star players to watch this season</p>
-    <div class="row g-4" id="homePlayers"></div>
-    <div class="text-center mt-4">
-      <a href="players.html" class="btn-outline-custom">View All Players <i class="fas fa-arrow-right ms-2"></i></a>
-    </div>
-  </div>
-</section>
-
-<!-- COMMUNITY - FIXED: proper spacing, no overlap -->
-<section style="background:var(--bg-darker)">
-  <div class="container">
-    <h2 class="section-title">Join the <span>Community</span></h2>
-    <p class="section-subtitle">Connect with thousands of CS2 fans across Malaysia</p>
-    <div class="row g-4">
-      <!-- Twitter Feed -->
-      <div class="col-md-6">
-        <div class="social-feed">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fab fa-twitter me-2" style="color:#1DA1F2;font-size:1.4rem"></i>
-            <strong>@APEXForceMY</strong>
-            <span class="text-muted ms-2" style="font-size:0.8rem">Latest Tweets</span>
-          </div>
-          <div id="twitterFeed"></div>
-        </div>
+    <div id="cartItems"></div>
+    <div class="mt-4 pt-3" style="border-top:1px solid var(--border)">
+      <div class="d-flex justify-content-between mb-3">
+        <span>Total:</span>
+        <strong id="cartTotal" style="color:var(--primary);font-size:1.2rem">RM 0.00</strong>
       </div>
-      <!-- Discord + Live Stream stacked with proper margin -->
-      <div class="col-md-6 d-flex flex-column gap-4">
-        <!-- Discord -->
-        <div class="card-custom">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fab fa-discord me-2" style="color:#5865F2;font-size:1.5rem"></i>
-            <h5 class="mb-0">Discord Community</h5>
+      <button class="btn-primary-custom w-100" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-banner-bg" style="background-image:url('Image Folder/Banner Image/CS2banner.png')"></div>
+    <div class="container hero-content">
+      <div class="row">
+        <div class="col-lg-8">
+          <span class="badge mb-3"
+            style="background:rgba(255,107,0,0.2);color:var(--primary);padding:8px 16px;border-radius:20px">
+            <i class="fas fa-fire me-1"></i> SEASON 2026 NOW LIVE
+          </span>
+          <h1>Malaysia's Premier <span class="highlight">CS2</span> Esports League</h1>
+          <p>Discover top talent, compete in national tournaments, and join the fastest growing Counter-Strike 2
+            community in Malaysia. Rank up, get sponsored, and represent MY on the world stage.</p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="events.html" class="btn-primary-custom"><i class="fas fa-trophy me-2"></i>View Tournaments</a>
+            <a href="login.html" class="btn-outline-custom"><i class="fas fa-user-plus me-2"></i>Join Now</a>
           </div>
-          <p style="color:var(--text-secondary)">Join 15,000+ members. Find teammates, discuss strategies, and get exclusive tournament updates.</p>
-          <div class="d-flex gap-3 mb-3">
-            <div><strong style="color:var(--success)">● 2,341</strong> <small style="color:var(--text-secondary)">Online</small></div>
-            <div><strong>15,230</strong> <small style="color:var(--text-secondary)">Members</small></div>
-          </div>
-          <a href="https://discord.com" target="_blank" class="btn-primary-custom w-100 d-block text-center"><i class="fab fa-discord me-2"></i>Join Discord</a>
-        </div>
-        <!-- Live Stream -->
-        <div class="card-custom">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fab fa-youtube me-2" style="color:#FF0000;font-size:1.5rem"></i>
-            <h5 class="mb-0">Live Stream</h5>
-          </div>
-          <div class="live-stream-box">
-            <div class="play-overlay">
-              <i class="fas fa-play-circle" style="font-size:3rem;color:var(--primary)"></i>
-              <p class="mt-2 mb-0" style="color:var(--text-secondary);font-size:0.85rem">Live Tournament Stream</p>
+          <div class="hero-badges">
+            <div class="hero-badge">
+              <div class="num" id="statTeams">0</div>
+              <div class="label">Pro Teams</div>
             </div>
-            <span class="live-badge"><i class="fas fa-circle me-1" style="font-size:0.5rem"></i>LIVE</span>
+            <div class="hero-badge">
+              <div class="num" id="statPlayers">0</div>
+              <div class="label">Players</div>
+            </div>
+            <div class="hero-badge">
+              <div class="num" id="statEvents">0</div>
+              <div class="label">Events</div>
+            </div>
+            <div class="hero-badge">
+              <div class="num">RM 500K+</div>
+              <div class="label">Prize Pool</div>
+            </div>
           </div>
-          <a href="https://www.twitch.tv" target="_blank" class="btn-outline-custom w-100 d-block text-center mt-3"><i class="fas fa-play me-2"></i>Watch on Twitch</a>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <h4 style="color:var(--primary);font-weight:800;display:flex;align-items:center;gap:10px">
-          <img src="Image Folder/Club Logo/our_logo.jpg" style="height:32px;border-radius:6px" alt="APEX FORCE ESPORT">
-          APEX<span style="color:#fff">FORCE</span> ESPORT
-        </h4>
-        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px">Malaysia's premier Counter-Strike 2 esports league. Discover talent, compete, and grow together.</p>
-        <div class="social-icons">
-          <a href="https://www.facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://discord.com" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
-          <a href="https://www.youtube.com" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.twitch.tv" target="_blank" title="Twitch"><i class="fab fa-twitch"></i></a>
+  <!-- UPCOMING EVENTS -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Upcoming <span>Events</span></h2>
+      <p class="section-subtitle">Don't miss out on the biggest CS2 tournaments in Malaysia</p>
+      <div class="row g-4" id="homeEvents"></div>
+      <div class="text-center mt-4">
+        <a href="events.html" class="btn-outline-custom">View All Events <i class="fas fa-arrow-right ms-2"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOP RANKINGS -->
+  <section style="background:var(--bg-darker)">
+    <div class="container">
+      <h2 class="section-title">Top <span>Rankings</span></h2>
+      <p class="section-subtitle">The best teams competing in Malaysia this season</p>
+      <div class="table-responsive">
+        <table class="table table-custom table-hover">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Team</th>
+              <th>Points</th>
+              <th>W/L</th>
+              <th>Win Rate</th>
+              <th>Region</th>
+            </tr>
+          </thead>
+          <tbody id="homeRankings"></tbody>
+        </table>
+      </div>
+      <div class="text-center mt-4">
+        <a href="ranking.html" class="btn-outline-custom">View Full Rankings <i class="fas fa-arrow-right ms-2"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PLAYERS -->
+  <section>
+    <div class="container">
+      <h2 class="section-title">Featured <span>Players</span></h2>
+      <p class="section-subtitle">Star players to watch this season</p>
+      <div class="row g-4" id="homePlayers"></div>
+      <div class="text-center mt-4">
+        <a href="players.html" class="btn-outline-custom">View All Players <i class="fas fa-arrow-right ms-2"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY - FIXED: proper spacing, no overlap -->
+  <section style="background:var(--bg-darker)">
+    <div class="container">
+      <h2 class="section-title">Join the <span>Community</span></h2>
+      <p class="section-subtitle">Connect with thousands of CS2 fans across Malaysia</p>
+      <div class="row g-4">
+        <!-- Twitter Feed -->
+        <div class="col-md-6">
+          <div class="social-feed">
+            <div class="d-flex align-items-center mb-3">
+              <i class="fab fa-twitter me-2" style="color:#1DA1F2;font-size:1.4rem"></i>
+              <strong>@APEXForceMY</strong>
+              <span class="text-muted ms-2" style="font-size:0.8rem">Latest Tweets</span>
+            </div>
+            <div id="twitterFeed"></div>
+          </div>
         </div>
-      </div>
-      <div class="col-md-2">
-        <h5>Quick Links</h5>
-        <a href="index.html">Home</a>
-        <a href="ranking.html">Rankings</a>
-        <a href="events.html">Events</a>
-        <a href="players.html">Players</a>
-      </div>
-      <div class="col-md-2">
-        <h5>Community</h5>
-        <a href="tickets.html">Tickets</a>
-        <a href="subscription.html">Subscribe</a>
-        <a href="about.html">About Us</a>
-        <a href="login.html">Login</a>
-      </div>
-      <div class="col-md-4">
-        <h5>Newsletter</h5>
-        <p style="color:var(--text-secondary);font-size:0.85rem">Get the latest tournament updates and news.</p>
-        <div class="input-group">
-          <input type="email" class="form-control" placeholder="Your email" id="newsletterEmail">
-          <button class="btn-primary-custom" onclick="subscribeNewsletter()">Subscribe</button>
+        <!-- Discord + Live Stream stacked with proper margin -->
+        <div class="col-md-6 d-flex flex-column gap-4">
+          <!-- Discord -->
+          <div class="card-custom">
+            <div class="d-flex align-items-center mb-3">
+              <i class="fab fa-discord me-2" style="color:#5865F2;font-size:1.5rem"></i>
+              <h5 class="mb-0">Discord Community</h5>
+            </div>
+            <p style="color:var(--text-secondary)">Join 15,000+ members. Find teammates, discuss strategies, and get
+              exclusive tournament updates.</p>
+            <div class="d-flex gap-3 mb-3">
+              <div><strong style="color:var(--success)">● 2,341</strong> <small
+                  style="color:var(--text-secondary)">Online</small></div>
+              <div><strong>15,230</strong> <small style="color:var(--text-secondary)">Members</small></div>
+            </div>
+            <a href="https://discord.com" target="_blank" class="btn-primary-custom w-100 d-block text-center"><i
+                class="fab fa-discord me-2"></i>Join Discord</a>
+          </div>
+          <!-- Live Stream -->
+          <div class="card-custom">
+            <div class="d-flex align-items-center mb-3">
+              <i class="fab fa-youtube me-2" style="color:#FF0000;font-size:1.5rem"></i>
+              <h5 class="mb-0">Live Stream</h5>
+            </div>
+            <div class="live-stream-box">
+              <div class="play-overlay">
+                <i class="fas fa-play-circle" style="font-size:3rem;color:var(--primary)"></i>
+                <p class="mt-2 mb-0" style="color:var(--text-secondary);font-size:0.85rem">Live Tournament Stream</p>
+              </div>
+              <span class="live-badge"><i class="fas fa-circle me-1" style="font-size:0.5rem"></i>LIVE</span>
+            </div>
+            <a href="https://www.twitch.tv" target="_blank" class="btn-outline-custom w-100 d-block text-center mt-3"><i
+                class="fas fa-play me-2"></i>Watch on Twitch</a>
+          </div>
         </div>
       </div>
     </div>
-    <hr style="border-color:var(--border);margin:30px 0 15px">
-    <div class="text-center" style="color:var(--text-secondary);font-size:0.85rem">
-      &copy; 2026 APEX FORCE ESPORT. UCCD2323 Front-End Web Development Assignment. All rights reserved.
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h4 style="color:var(--primary);font-weight:800;display:flex;align-items:center;gap:10px">
+            <img src="Image Folder/Club Logo/our_logo.jpg" style="height:32px;border-radius:6px"
+              alt="APEX FORCE ESPORT">
+            APEX<span style="color:#fff">FORCE</span> ESPORT
+          </h4>
+          <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px">Malaysia's premier Counter-Strike 2
+            esports league. Discover talent, compete, and grow together.</p>
+          <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://discord.com" target="_blank" title="Discord"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.twitch.tv" target="_blank" title="Twitch"><i class="fab fa-twitch"></i></a>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h5>Quick Links</h5>
+          <a href="index.html">Home</a>
+          <a href="ranking.html">Rankings</a>
+          <a href="events.html">Events</a>
+          <a href="players.html">Players</a>
+        </div>
+        <div class="col-md-2">
+          <h5>Community</h5>
+          <a href="tickets.html">Tickets</a>
+          <a href="subscription.html">Subscribe</a>
+          <a href="about.html">About Us</a>
+          <a href="login.html">Login</a>
+        </div>
+        <div class="col-md-4">
+          <h5>Newsletter</h5>
+          <p style="color:var(--text-secondary);font-size:0.85rem">Get the latest tournament updates and news.</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your email" id="newsletterEmail">
+            <button class="btn-primary-custom" onclick="subscribeNewsletter()">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <hr style="border-color:var(--border);margin:30px 0 15px">
+      <div class="text-center" style="color:var(--text-secondary);font-size:0.85rem">
+        &copy; 2026 APEX FORCE ESPORT. UCCD2323 Front-End Web Development Assignment. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODALS -->
+  <div class="modal fade" id="teamModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="teamModalName">Team Name</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="teamModalBody"></div>
+      </div>
     </div>
   </div>
-</footer>
+  <div class="modal fade" id="playerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="playerModalName">Player Name</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="playerModalBody"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="eventModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eventModalName">Event Name</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="eventModalBody"></div>
+      </div>
+    </div>
+  </div>
 
-<!-- MODALS -->
-<div class="modal fade" id="teamModal" tabindex="-1">
-  <div class="modal-dialog modal-lg"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title" id="teamModalName">Team Name</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body" id="teamModalBody"></div>
-  </div></div>
-</div>
-<div class="modal fade" id="playerModal" tabindex="-1">
-  <div class="modal-dialog"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title" id="playerModalName">Player Name</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body" id="playerModalBody"></div>
-  </div></div>
-</div>
-<div class="modal fade" id="eventModal" tabindex="-1">
-  <div class="modal-dialog modal-lg"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title" id="eventModalName">Event Name</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body" id="eventModalBody"></div>
-  </div></div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  initApp();
-  renderRankings();
-  renderEvents();
-  renderPlayers();
-  renderSocialFeed();
-  document.getElementById('statTeams').textContent = TEAMS.length;
-  document.getElementById('statPlayers').textContent = PLAYERS.length;
-  document.getElementById('statEvents').textContent = EVENTS.filter(e => e.status !== 'past').length;
-});
-</script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      initApp();
+      renderRankings();
+      renderEvents();
+      renderPlayers();
+      renderSocialFeed();
+      document.getElementById('statTeams').textContent = TEAMS.length;
+      document.getElementById('statPlayers').textContent = PLAYERS.length;
+      document.getElementById('statEvents').textContent = EVENTS.filter(e => e.status !== 'past').length;
+    });
+  </script>
 </body>
+
 </html>

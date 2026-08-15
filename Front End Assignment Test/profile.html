@@ -1,338 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Profile - APEX FORCE ESPORT</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - APEX FORCE ESPORT</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-  <div class="container">
-    <a class="navbar-brand" href="index.html">
-      <img src="Image Folder/Club Logo/our_logo.jpg" alt="APEX FORCE ESPORT">
-      APEX<span>FORCE</span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item"><a class="nav-link" href="index.html" data-page="home">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="ranking.html" data-page="rankings">Rankings</a></li>
-        <li class="nav-item"><a class="nav-link" href="events.html" data-page="events">Events</a></li>
-        <li class="nav-item"><a class="nav-link" href="players.html" data-page="players">Players</a></li>
-        <li class="nav-item"><a class="nav-link" href="tickets.html" data-page="shop">Tickets</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html" data-page="about">About</a></li>
-      </ul>
-      <div class="d-flex align-items-center gap-2" id="navAuth">
-        <a href="login.html" class="btn-outline-custom">Login</a>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">
+        <img src="Image Folder/Club Logo/our_logo.jpg" alt="APEX FORCE ESPORT">
+        APEX<span>FORCE</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html" data-page="home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="ranking.html" data-page="rankings">Rankings</a></li>
+          <li class="nav-item"><a class="nav-link" href="events.html" data-page="events">Events</a></li>
+          <li class="nav-item"><a class="nav-link" href="players.html" data-page="players">Players</a></li>
+          <li class="nav-item"><a class="nav-link" href="tickets.html" data-page="shop">Tickets</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html" data-page="about">About</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2" id="navAuth">
+          <a href="login.html" class="btn-outline-custom">Login</a>
+        </div>
+        <div class="d-none align-items-center gap-3" id="navUser">
+          <button class="btn-outline-custom position-relative" onclick="toggleCart()">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              id="cartCount">0</span>
+          </button>
+          <div class="dropdown">
+            <img src="" id="navAvatar" class="rounded-circle"
+              style="width:36px;height:36px;cursor:pointer;object-fit:cover;border:2px solid var(--primary)"
+              data-bs-toggle="dropdown">
+            <ul class="dropdown-menu dropdown-menu-end"
+              style="background:var(--bg-card);border:1px solid var(--border)">
+              <li><a class="dropdown-item active" style="color:var(--primary)" href="profile.html"><i
+                    class="fas fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" style="color:var(--text-primary)" href="subscription.html"><i
+                    class="fas fa-bell me-2"></i>Subscriptions</a></li>
+              <li>
+                <hr class="dropdown-divider" style="border-color:var(--border)">
+              </li>
+              <li><a class="dropdown-item" style="color:var(--danger)" href="#" onclick="logout()"><i
+                    class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="d-none align-items-center gap-3" id="navUser">
-        <button class="btn-outline-custom position-relative" onclick="toggleCart()">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cartCount">0</span>
-        </button>
-        <div class="dropdown">
-          <img src="" id="navAvatar" class="rounded-circle" style="width:36px;height:36px;cursor:pointer;object-fit:cover;border:2px solid var(--primary)" data-bs-toggle="dropdown">
-          <ul class="dropdown-menu dropdown-menu-end" style="background:var(--bg-card);border:1px solid var(--border)">
-            <li><a class="dropdown-item active" style="color:var(--primary)" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
-            <li><a class="dropdown-item" style="color:var(--text-primary)" href="subscription.html"><i class="fas fa-bell me-2"></i>Subscriptions</a></li>
-            <li><hr class="dropdown-divider" style="border-color:var(--border)"></li>
-            <li><a class="dropdown-item" style="color:var(--danger)" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
-          </ul>
+    </div>
+  </nav>
+
+  <!-- TOAST -->
+  <div class="toast-custom" id="toast"><span id="toastMsg"></span></div>
+
+  <!-- CART DRAWER -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 class="mb-0"><i class="fas fa-shopping-cart me-2" style="color:var(--primary)"></i>Your Cart</h5>
+      <button class="btn-close" onclick="toggleCart()"></button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="mt-4 pt-3" style="border-top:1px solid var(--border)">
+      <div class="d-flex justify-content-between mb-3">
+        <span>Total:</span>
+        <strong id="cartTotal" style="color:var(--primary);font-size:1.2rem">RM 0.00</strong>
+      </div>
+      <button class="btn-primary-custom w-100" onclick="checkout()">Checkout</button>
+    </div>
+  </div>
+
+  <!-- PROFILE HEADER -->
+  <div class="profile-header">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-4">
+        <img src="" id="profileAvatar" class="profile-avatar" alt="avatar">
+        <div class="text-center text-md-start">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start flex-wrap">
+            <h2 class="profile-name mb-0" id="profileName">User</h2>
+            <span class="role-badge role-player" id="profileRoleBadge">Player</span>
+          </div>
+          <p class="mb-1 mt-2" style="color:var(--text-secondary)"><i class="fab fa-steam me-1"></i> <span
+              id="profileSteam">Not linked</span></p>
+          <p class="mb-0" style="color:var(--text-secondary)"><i class="fas fa-envelope me-1"></i> <span
+              id="profileEmail">email@example.com</span></p>
+          <p class="mt-2 mb-0" id="profileBio" style="color:var(--text-secondary);max-width:500px"></p>
         </div>
       </div>
     </div>
   </div>
-</nav>
 
-<!-- TOAST -->
-<div class="toast-custom" id="toast"><span id="toastMsg"></span></div>
-
-<!-- CART DRAWER -->
-<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-<div class="cart-drawer" id="cartDrawer">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <h5 class="mb-0"><i class="fas fa-shopping-cart me-2" style="color:var(--primary)"></i>Your Cart</h5>
-    <button class="btn-close" onclick="toggleCart()"></button>
-  </div>
-  <div id="cartItems"></div>
-  <div class="mt-4 pt-3" style="border-top:1px solid var(--border)">
-    <div class="d-flex justify-content-between mb-3">
-      <span>Total:</span>
-      <strong id="cartTotal" style="color:var(--primary);font-size:1.2rem">RM 0.00</strong>
-    </div>
-    <button class="btn-primary-custom w-100" onclick="checkout()">Checkout</button>
-  </div>
-</div>
-
-<!-- PROFILE HEADER -->
-<div class="profile-header">
-  <div class="container">
-    <div class="d-flex flex-column flex-md-row align-items-center align-items-md-start gap-4">
-      <img src="" id="profileAvatar" class="profile-avatar" alt="avatar">
-      <div class="text-center text-md-start">
-        <div class="d-flex align-items-center justify-content-center justify-content-md-start flex-wrap">
-          <h2 class="profile-name mb-0" id="profileName">User</h2>
-          <span class="role-badge role-player" id="profileRoleBadge">Player</span>
-        </div>
-        <p class="mb-1 mt-2" style="color:var(--text-secondary)"><i class="fab fa-steam me-1"></i> <span id="profileSteam">Not linked</span></p>
-        <p class="mb-0" style="color:var(--text-secondary)"><i class="fas fa-envelope me-1"></i> <span id="profileEmail">email@example.com</span></p>
-        <p class="mt-2 mb-0" id="profileBio" style="color:var(--text-secondary);max-width:500px"></p>
+  <!-- PROFILE CONTENT -->
+  <div class="container py-5">
+    <div class="profile-nav">
+      <div class="profile-nav-item active" onclick="switchProfileTab('info',this)"><i
+          class="fas fa-info-circle me-1"></i> Info</div>
+      <div class="profile-nav-item" onclick="switchProfileTab('team',this)"><i class="fas fa-users me-1"></i> My Team
+      </div>
+      <div class="profile-nav-item" onclick="switchProfileTab('history',this)"><i class="fas fa-history me-1"></i> Match
+        History</div>
+      <div class="profile-nav-item" onclick="switchProfileTab('favorites',this)"><i class="fas fa-star me-1"></i>
+        Favorites</div>
+      <div class="profile-nav-item" onclick="switchProfileTab('settings',this)"><i class="fas fa-cog me-1"></i> Settings
       </div>
     </div>
-  </div>
-</div>
 
-<!-- PROFILE CONTENT -->
-<div class="container py-5">
-  <div class="profile-nav">
-    <div class="profile-nav-item active" onclick="switchProfileTab('info',this)"><i class="fas fa-info-circle me-1"></i> Info</div>
-    <div class="profile-nav-item" onclick="switchProfileTab('team',this)"><i class="fas fa-users me-1"></i> My Team</div>
-    <div class="profile-nav-item" onclick="switchProfileTab('history',this)"><i class="fas fa-history me-1"></i> Match History</div>
-    <div class="profile-nav-item" onclick="switchProfileTab('favorites',this)"><i class="fas fa-star me-1"></i> Favorites</div>
-    <div class="profile-nav-item" onclick="switchProfileTab('settings',this)"><i class="fas fa-cog me-1"></i> Settings</div>
-  </div>
-
-  <!-- INFO TAB -->
-  <div class="profile-section active" id="profile-info">
-    <div class="row g-4">
-      <div class="col-md-8">
-        <div class="card-custom">
-          <h5 class="mb-4"><i class="fas fa-edit me-2" style="color:var(--primary)"></i>Edit Profile</h5>
-          <form onsubmit="saveProfile(event)">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label class="form-label">Display Name</label>
-                <input type="text" class="form-control" id="editName">
+    <!-- INFO TAB -->
+    <div class="profile-section active" id="profile-info">
+      <div class="row g-4">
+        <div class="col-md-8">
+          <div class="card-custom">
+            <h5 class="mb-4"><i class="fas fa-edit me-2" style="color:var(--primary)"></i>Edit Profile</h5>
+            <form onsubmit="saveProfile(event)">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Display Name</label>
+                  <input type="text" class="form-control" id="editName">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" id="editEmail">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Avatar URL</label>
+                  <input type="text" class="form-control" id="editAvatar" placeholder="https://...">
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Bio</label>
+                  <textarea class="form-control" id="editBio" rows="3"
+                    placeholder="Tell us about yourself..."></textarea>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Steam ID</label>
+                  <input type="text" class="form-control" id="editSteam">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">In-Game Rank</label>
+                  <select class="form-select" id="editRank">
+                    <option>Silver</option>
+                    <option>Gold Nova</option>
+                    <option>Master Guardian</option>
+                    <option>Legendary Eagle</option>
+                    <option>Supreme</option>
+                    <option>Global Elite</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Preferred Role</label>
+                  <select class="form-select" id="editPosition">
+                    <option>AWPer</option>
+                    <option>Rifler</option>
+                    <option>IGL (In-Game Leader)</option>
+                    <option>Support</option>
+                    <option>Lurker</option>
+                    <option>Entry Fragger</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn-primary-custom">Save Changes</button>
+                </div>
               </div>
-              <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" id="editEmail">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Avatar URL</label>
-                <input type="text" class="form-control" id="editAvatar" placeholder="https://...">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Bio</label>
-                <textarea class="form-control" id="editBio" rows="3" placeholder="Tell us about yourself..."></textarea>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Steam ID</label>
-                <input type="text" class="form-control" id="editSteam">
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">In-Game Rank</label>
-                <select class="form-select" id="editRank">
-                  <option>Silver</option><option>Gold Nova</option><option>Master Guardian</option>
-                  <option>Legendary Eagle</option><option>Supreme</option><option>Global Elite</option>
-                </select>
-              </div>
-              <div class="col-md-6">
-                <label class="form-label">Preferred Role</label>
-                <select class="form-select" id="editPosition">
-                  <option>AWPer</option><option>Rifler</option><option>IGL (In-Game Leader)</option>
-                  <option>Support</option><option>Lurker</option><option>Entry Fragger</option>
-                </select>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn-primary-custom">Save Changes</button>
-              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-custom mb-3">
+            <h6 class="mb-3" style="color:var(--text-secondary)">ACCOUNT STATS</h6>
+            <div class="d-flex justify-content-between mb-2"><span style="color:var(--text-secondary)">Member
+                Since</span><strong id="statSince">-</strong></div>
+            <div class="d-flex justify-content-between mb-2"><span
+                style="color:var(--text-secondary)">Tournaments</span><strong>3</strong></div>
+            <div class="d-flex justify-content-between mb-2"><span style="color:var(--text-secondary)">Matches
+                Played</span><strong>47</strong></div>
+            <div class="d-flex justify-content-between"><span style="color:var(--text-secondary)">Win Rate</span><strong
+                style="color:var(--success)">62%</strong></div>
+          </div>
+          <div class="card-custom">
+            <h6 class="mb-3" style="color:var(--text-secondary)">ACHIEVEMENTS</h6>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="badge" style="background:rgba(255,215,0,0.2);color:#FFD700;padding:8px 12px"><i
+                  class="fas fa-trophy me-1"></i>1st Place - Rookie Cup</span>
+              <span class="badge" style="background:rgba(72,187,120,0.2);color:var(--success);padding:8px 12px"><i
+                  class="fas fa-fire me-1"></i>10 Win Streak</span>
+              <span class="badge" style="background:rgba(66,153,225,0.2);color:#4299E1;padding:8px 12px"><i
+                  class="fas fa-calendar me-1"></i>6 Month Member</span>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card-custom mb-3">
-          <h6 class="mb-3" style="color:var(--text-secondary)">ACCOUNT STATS</h6>
-          <div class="d-flex justify-content-between mb-2"><span style="color:var(--text-secondary)">Member Since</span><strong id="statSince">-</strong></div>
-          <div class="d-flex justify-content-between mb-2"><span style="color:var(--text-secondary)">Tournaments</span><strong>3</strong></div>
-          <div class="d-flex justify-content-between mb-2"><span style="color:var(--text-secondary)">Matches Played</span><strong>47</strong></div>
-          <div class="d-flex justify-content-between"><span style="color:var(--text-secondary)">Win Rate</span><strong style="color:var(--success)">62%</strong></div>
-        </div>
-        <div class="card-custom">
-          <h6 class="mb-3" style="color:var(--text-secondary)">ACHIEVEMENTS</h6>
-          <div class="d-flex flex-wrap gap-2">
-            <span class="badge" style="background:rgba(255,215,0,0.2);color:#FFD700;padding:8px 12px"><i class="fas fa-trophy me-1"></i>1st Place - Rookie Cup</span>
-            <span class="badge" style="background:rgba(72,187,120,0.2);color:var(--success);padding:8px 12px"><i class="fas fa-fire me-1"></i>10 Win Streak</span>
-            <span class="badge" style="background:rgba(66,153,225,0.2);color:#4299E1;padding:8px 12px"><i class="fas fa-calendar me-1"></i>6 Month Member</span>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- MY TEAM TAB -->
-  <div class="profile-section" id="profile-team">
-    <div class="card-custom text-center py-5">
-      <i class="fas fa-users" style="font-size:3rem;color:var(--border)"></i>
-      <h4 class="mt-3">You haven't joined a team yet</h4>
-      <p style="color:var(--text-secondary)">Join or create a team to compete in tournaments and climb the rankings</p>
-      <div class="d-flex gap-3 justify-content-center mt-3">
-        <button class="btn-primary-custom" onclick="showToast('Team creation coming soon')">Create Team</button>
-        <a href="ranking.html" class="btn-outline-custom">Browse Teams</a>
+    <!-- MY TEAM TAB -->
+    <div class="profile-section" id="profile-team">
+      <div class="card-custom text-center py-5">
+        <i class="fas fa-users" style="font-size:3rem;color:var(--border)"></i>
+        <h4 class="mt-3">You haven't joined a team yet</h4>
+        <p style="color:var(--text-secondary)">Join or create a team to compete in tournaments and climb the rankings
+        </p>
+        <div class="d-flex gap-3 justify-content-center mt-3">
+          <button class="btn-primary-custom" onclick="showToast('Team creation coming soon')">Create Team</button>
+          <a href="ranking.html" class="btn-outline-custom">Browse Teams</a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- MATCH HISTORY TAB - DARK BACKGROUND FIX -->
-  <div class="profile-section" id="profile-history">
-    <div class="card-custom p-0" style="overflow:hidden">
-      <div class="table-responsive">
-        <table class="table table-custom table-hover mb-0">
-          <thead><tr><th>Date</th><th>Tournament</th><th>Match</th><th>Result</th><th>K/D/A</th><th>Rating</th></tr></thead>
-          <tbody>
-            <tr><td>2026-08-10</td><td>National Qualifiers</td><td>vs Inferno Dragons</td><td><span style="color:var(--success)">Win 16-12</span></td><td>24/18/4</td><td>1.28</td></tr>
-            <tr><td>2026-08-05</td><td>National Qualifiers</td><td>vs Golden Falcons</td><td><span style="color:var(--danger)">Loss 11-16</span></td><td>18/20/2</td><td>0.95</td></tr>
-            <tr><td>2026-07-28</td><td>Summer Showdown</td><td>vs Ocean Titans</td><td><span style="color:var(--success)">Win 16-9</span></td><td>28/14/6</td><td>1.52</td></tr>
-            <tr><td>2026-07-20</td><td>Summer Showdown</td><td>vs Nova Esports</td><td><span style="color:var(--success)">Win 16-14</span></td><td>22/19/3</td><td>1.10</td></tr>
-            <tr><td>2026-07-15</td><td>Rookie Cup Finals</td><td>vs Aspire Esports</td><td><span style="color:var(--success)">Win 2-1 (BO3)</span></td><td>67/52/12</td><td>1.35</td></tr>
-            <tr><td>2026-07-08</td><td>Rookie Cup Semi</td><td>vs Arctic Wolves</td><td><span style="color:var(--danger)">Loss 13-16</span></td><td>15/21/5</td><td>0.88</td></tr>
-            <tr><td>2026-06-30</td><td>Spring Invitational</td><td>vs Inferno Dragons</td><td><span style="color:var(--success)">Win 16-10</span></td><td>26/12/7</td><td>1.45</td></tr>
-          </tbody>
-        </table>
+    <!-- MATCH HISTORY TAB - DARK BACKGROUND FIX -->
+    <div class="profile-section" id="profile-history">
+      <div class="card-custom p-0" style="overflow:hidden">
+        <div class="table-responsive">
+          <table class="table table-custom table-hover mb-0">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Tournament</th>
+                <th>Match</th>
+                <th>Result</th>
+                <th>K/D/A</th>
+                <th>Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2026-08-10</td>
+                <td>National Qualifiers</td>
+                <td>vs Inferno Dragons</td>
+                <td><span style="color:var(--success)">Win 16-12</span></td>
+                <td>24/18/4</td>
+                <td>1.28</td>
+              </tr>
+              <tr>
+                <td>2026-08-05</td>
+                <td>National Qualifiers</td>
+                <td>vs Golden Falcons</td>
+                <td><span style="color:var(--danger)">Loss 11-16</span></td>
+                <td>18/20/2</td>
+                <td>0.95</td>
+              </tr>
+              <tr>
+                <td>2026-07-28</td>
+                <td>Summer Showdown</td>
+                <td>vs Ocean Titans</td>
+                <td><span style="color:var(--success)">Win 16-9</span></td>
+                <td>28/14/6</td>
+                <td>1.52</td>
+              </tr>
+              <tr>
+                <td>2026-07-20</td>
+                <td>Summer Showdown</td>
+                <td>vs Nova Esports</td>
+                <td><span style="color:var(--success)">Win 16-14</span></td>
+                <td>22/19/3</td>
+                <td>1.10</td>
+              </tr>
+              <tr>
+                <td>2026-07-15</td>
+                <td>Rookie Cup Finals</td>
+                <td>vs Aspire Esports</td>
+                <td><span style="color:var(--success)">Win 2-1 (BO3)</span></td>
+                <td>67/52/12</td>
+                <td>1.35</td>
+              </tr>
+              <tr>
+                <td>2026-07-08</td>
+                <td>Rookie Cup Semi</td>
+                <td>vs Arctic Wolves</td>
+                <td><span style="color:var(--danger)">Loss 13-16</span></td>
+                <td>15/21/5</td>
+                <td>0.88</td>
+              </tr>
+              <tr>
+                <td>2026-06-30</td>
+                <td>Spring Invitational</td>
+                <td>vs Inferno Dragons</td>
+                <td><span style="color:var(--success)">Win 16-10</span></td>
+                <td>26/12/7</td>
+                <td>1.45</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- FAVORITES TAB -->
-  <div class="profile-section" id="profile-favorites">
-    <div id="favEventsList"></div>
-  </div>
+    <!-- FAVORITES TAB -->
+    <div class="profile-section" id="profile-favorites">
+      <div id="favEventsList"></div>
+    </div>
 
-  <!-- SETTINGS TAB -->
-  <div class="profile-section" id="profile-settings">
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="card-custom">
-          <h5 class="mb-4"><i class="fas fa-key me-2" style="color:var(--primary)"></i>Change Password</h5>
-          <form onsubmit="changePassword(event)">
-            <div class="mb-3">
-              <label class="form-label">Current Password</label>
-              <input type="password" class="form-control" id="curPass" required>
+    <!-- SETTINGS TAB -->
+    <div class="profile-section" id="profile-settings">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card-custom">
+            <h5 class="mb-4"><i class="fas fa-key me-2" style="color:var(--primary)"></i>Change Password</h5>
+            <form onsubmit="changePassword(event)">
+              <div class="mb-3">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-control" id="curPass" required>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-control" id="newPass" required minlength="6">
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" id="newPass2" required>
+              </div>
+              <button type="submit" class="btn-primary-custom">Update Password</button>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card-custom mb-3">
+            <h5 class="mb-4"><i class="fas fa-bell me-2" style="color:var(--primary)"></i>Notifications</h5>
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="notifEmail" checked
+                style="accent-color:var(--primary)">
+              <label class="form-check-label" for="notifEmail">Email notifications for tournament updates</label>
             </div>
-            <div class="mb-3">
-              <label class="form-label">New Password</label>
-              <input type="password" class="form-control" id="newPass" required minlength="6">
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="notifMatch" checked
+                style="accent-color:var(--primary)">
+              <label class="form-check-label" for="notifMatch">Match result notifications</label>
             </div>
-            <div class="mb-3">
-              <label class="form-label">Confirm New Password</label>
-              <input type="password" class="form-control" id="newPass2" required>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="notifNews" style="accent-color:var(--primary)">
+              <label class="form-check-label" for="notifNews">Weekly newsletter</label>
             </div>
-            <button type="submit" class="btn-primary-custom">Update Password</button>
-          </form>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card-custom mb-3">
-          <h5 class="mb-4"><i class="fas fa-bell me-2" style="color:var(--primary)"></i>Notifications</h5>
-          <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" id="notifEmail" checked style="accent-color:var(--primary)">
-            <label class="form-check-label" for="notifEmail">Email notifications for tournament updates</label>
           </div>
-          <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" id="notifMatch" checked style="accent-color:var(--primary)">
-            <label class="form-check-label" for="notifMatch">Match result notifications</label>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="notifNews" style="accent-color:var(--primary)">
-            <label class="form-check-label" for="notifNews">Weekly newsletter</label>
-          </div>
-        </div>
-        <div class="card-custom">
-          <h5 class="mb-4"><i class="fas fa-shield-alt me-2" style="color:var(--primary)"></i>Privacy</h5>
-          <div class="form-check form-switch mb-3">
-            <input class="form-check-input" type="checkbox" id="privProfile" checked style="accent-color:var(--primary)">
-            <label class="form-check-label" for="privProfile">Public profile</label>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="privStats" style="accent-color:var(--primary)">
-            <label class="form-check-label" for="privStats">Hide match statistics</label>
+          <div class="card-custom">
+            <h5 class="mb-4"><i class="fas fa-shield-alt me-2" style="color:var(--primary)"></i>Privacy</h5>
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="privProfile" checked
+                style="accent-color:var(--primary)">
+              <label class="form-check-label" for="privProfile">Public profile</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="privStats" style="accent-color:var(--primary)">
+              <label class="form-check-label" for="privStats">Hide match statistics</label>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="row g-4">
-      <div class="col-md-4">
-        <h4 style="color:var(--primary);font-weight:800;display:flex;align-items:center;gap:10px">
-          <img src="Image Folder/Club Logo/our_logo.jpg" style="height:32px;border-radius:6px" alt="APEX FORCE ESPORT">
-          APEX<span style="color:#fff">FORCE</span> ESPORT
-        </h4>
-        <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px">Malaysia's premier Counter-Strike 2 esports league.</p>
-        <div class="social-icons">
-          <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
-          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
-          <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
-          <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.twitch.tv" target="_blank"><i class="fab fa-twitch"></i></a>
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <h4 style="color:var(--primary);font-weight:800;display:flex;align-items:center;gap:10px">
+            <img src="Image Folder/Club Logo/our_logo.jpg" style="height:32px;border-radius:6px"
+              alt="APEX FORCE ESPORT">
+            APEX<span style="color:#fff">FORCE</span> ESPORT
+          </h4>
+          <p style="color:var(--text-secondary);font-size:0.9rem;margin-top:12px">Malaysia's premier Counter-Strike 2
+            esports league.</p>
+          <div class="social-icons">
+            <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://discord.com" target="_blank"><i class="fab fa-discord"></i></a>
+            <a href="https://www.youtube.com" target="_blank"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.twitch.tv" target="_blank"><i class="fab fa-twitch"></i></a>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <h5>Quick Links</h5>
+          <a href="index.html">Home</a>
+          <a href="ranking.html">Rankings</a>
+          <a href="events.html">Events</a>
+          <a href="players.html">Players</a>
+        </div>
+        <div class="col-md-2">
+          <h5>Community</h5>
+          <a href="tickets.html">Tickets</a>
+          <a href="subscription.html">Subscribe</a>
+          <a href="about.html">About Us</a>
+          <a href="login.html">Login</a>
+        </div>
+        <div class="col-md-4">
+          <h5>Newsletter</h5>
+          <p style="color:var(--text-secondary);font-size:0.85rem">Get the latest tournament updates and news.</p>
+          <div class="input-group">
+            <input type="email" class="form-control" placeholder="Your email" id="newsletterEmail">
+            <button class="btn-primary-custom" onclick="subscribeNewsletter()">Subscribe</button>
+          </div>
         </div>
       </div>
-      <div class="col-md-2">
-        <h5>Quick Links</h5>
-        <a href="index.html">Home</a>
-        <a href="ranking.html">Rankings</a>
-        <a href="events.html">Events</a>
-        <a href="players.html">Players</a>
-      </div>
-      <div class="col-md-2">
-        <h5>Community</h5>
-        <a href="tickets.html">Tickets</a>
-        <a href="subscription.html">Subscribe</a>
-        <a href="about.html">About Us</a>
-        <a href="login.html">Login</a>
-      </div>
-      <div class="col-md-4">
-        <h5>Newsletter</h5>
-        <p style="color:var(--text-secondary);font-size:0.85rem">Get the latest tournament updates and news.</p>
-        <div class="input-group">
-          <input type="email" class="form-control" placeholder="Your email" id="newsletterEmail">
-          <button class="btn-primary-custom" onclick="subscribeNewsletter()">Subscribe</button>
-        </div>
+      <hr style="border-color:var(--border);margin:30px 0 15px">
+      <div class="text-center" style="color:var(--text-secondary);font-size:0.85rem">
+        &copy; 2026 APEX FORCE ESPORT. UCCD2323 Assignment. All rights reserved.
       </div>
     </div>
-    <hr style="border-color:var(--border);margin:30px 0 15px">
-    <div class="text-center" style="color:var(--text-secondary);font-size:0.85rem">
-      &copy; 2026 APEX FORCE ESPORT. UCCD2323 Assignment. All rights reserved.
+  </footer>
+
+  <!-- MODALS -->
+  <div class="modal fade" id="teamModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="teamModalName">Team Name</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="teamModalBody"></div>
+      </div>
     </div>
   </div>
-</footer>
+  <div class="modal fade" id="eventModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eventModalName">Event Name</h5><button type="button" class="btn-close"
+            data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="eventModalBody"></div>
+      </div>
+    </div>
+  </div>
 
-<!-- MODALS -->
-<div class="modal fade" id="teamModal" tabindex="-1">
-  <div class="modal-dialog modal-lg"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title" id="teamModalName">Team Name</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body" id="teamModalBody"></div>
-  </div></div>
-</div>
-<div class="modal fade" id="eventModal" tabindex="-1">
-  <div class="modal-dialog modal-lg"><div class="modal-content">
-    <div class="modal-header"><h5 class="modal-title" id="eventModalName">Event Name</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-    <div class="modal-body" id="eventModalBody"></div>
-  </div></div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  initApp();
-  loadProfile();
-});
-</script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      initApp();
+      loadProfile();
+    });
+  </script>
 </body>
+
 </html>

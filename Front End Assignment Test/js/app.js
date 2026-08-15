@@ -19,11 +19,11 @@ function getCookie(name) {
 }
 function deleteCookie(name) { setCookie(name, "", -1); }
 function getLS(key, def) {
-  try { return JSON.parse(localStorage.getItem(key)) || def; } catch(e) { return def; }
+  try { return JSON.parse(localStorage.getItem(key)) || def; } catch (e) { return def; }
 }
 function setLS(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 function getSS(key, def) {
-  try { return JSON.parse(sessionStorage.getItem(key)) || def; } catch(e) { return def; }
+  try { return JSON.parse(sessionStorage.getItem(key)) || def; } catch (e) { return def; }
 }
 function setSS(key, val) { sessionStorage.setItem(key, JSON.stringify(val)); }
 
@@ -33,16 +33,16 @@ let currentUser = null;
 function initUsers() {
   if (!getLS('cs2_users', null)) {
     setLS('cs2_users', [{
-      username:"demo",
-      email:"demo@apexforce.my",
-      password:"demo123",
-      steam:"STEAM_0:1:12345678",
-      role:"player",
+      username: "demo",
+      email: "demo@apexforce.my",
+      password: "demo123",
+      steam: "STEAM_0:1:12345678",
+      role: "player",
       avatar: IMG.defaultProfile,
-      bio:"Passionate CS2 player and demo account user. APEX FORCE ESPORT fan!",
-      rank:"Legendary Eagle",
-      position:"AWPer",
-      createdAt:new Date().toISOString()
+      bio: "Passionate CS2 player and demo account user. APEX FORCE ESPORT fan!",
+      rank: "Legendary Eagle",
+      position: "AWPer",
+      createdAt: new Date().toISOString()
     }]);
   }
 }
@@ -224,16 +224,16 @@ function renderRankings() {
   const search = (document.getElementById('rankSearch')?.value || '').toLowerCase();
   const sort = document.getElementById('rankSort')?.value || 'points';
   let filtered = TEAMS.filter(t => t.name.toLowerCase().includes(search) || t.region.toLowerCase().includes(search));
-  if (sort === 'points') filtered.sort((a,b) => b.points - a.points);
-  else if (sort === 'wins') filtered.sort((a,b) => b.wins - a.wins);
-  else if (sort === 'winrate') filtered.sort((a,b) => (b.wins/(b.wins+b.losses)) - (a.wins/(a.wins+a.losses)));
+  if (sort === 'points') filtered.sort((a, b) => b.points - a.points);
+  else if (sort === 'wins') filtered.sort((a, b) => b.wins - a.wins);
+  else if (sort === 'winrate') filtered.sort((a, b) => (b.wins / (b.wins + b.losses)) - (a.wins / (a.wins + a.losses)));
   const tbody = document.getElementById('rankingsBody');
   if (tbody) {
     tbody.innerHTML = filtered.map((t, i) => {
       const wr = Math.round(t.wins / (t.wins + t.losses) * 100);
       const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
       return `<tr>
-        <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
+        <td><span class="rank-badge ${rankClass}">${i + 1}</span></td>
         <td><img src="${t.logo}" class="team-logo-img" alt="${t.name}"> <strong>${t.name}</strong></td>
         <td><strong style="color:var(--primary)">${t.points}</strong></td>
         <td style="color:var(--success)">${t.wins}</td>
@@ -248,11 +248,11 @@ function renderRankings() {
   if (cnt) cnt.textContent = filtered.length + ' teams';
   const homeBody = document.getElementById('homeRankings');
   if (homeBody) {
-    const top5 = [...TEAMS].sort((a,b) => b.points - a.points).slice(0, 5);
+    const top5 = [...TEAMS].sort((a, b) => b.points - a.points).slice(0, 5);
     homeBody.innerHTML = top5.map((t, i) => {
       const wr = Math.round(t.wins / (t.wins + t.losses) * 100);
       const rankClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
-      return `<tr><td><span class="rank-badge ${rankClass}">${i+1}</span></td><td><img src="${t.logo}" class="team-logo-img" alt="${t.name}"> <strong>${t.name}</strong></td><td><strong style="color:var(--primary)">${t.points}</strong></td><td>${t.wins}-${t.losses}</td><td>${wr}%</td><td>${t.region}</td></tr>`;
+      return `<tr><td><span class="rank-badge ${rankClass}">${i + 1}</span></td><td><img src="${t.logo}" class="team-logo-img" alt="${t.name}"> <strong>${t.name}</strong></td><td><strong style="color:var(--primary)">${t.points}</strong></td><td>${t.wins}-${t.losses}</td><td>${wr}%</td><td>${t.region}</td></tr>`;
     }).join('');
   }
 }
@@ -301,10 +301,10 @@ function renderEvents() {
       list.innerHTML = '<div class="col-12 text-center py-5" style="color:var(--text-secondary)"><i class="fas fa-calendar-times" style="font-size:3rem"></i><p class="mt-3">No events found.</p></div>';
     } else {
       list.innerHTML = filtered.map(e => {
-    const d = new Date(e.date);
-    const favs = getLS('cs2_favorites', []);
-    const isFav = favs.includes(e.id);
-    return `<div class="col-md-6 col-lg-4">
+        const d = new Date(e.date);
+        const favs = getLS('cs2_favorites', []);
+        const isFav = favs.includes(e.id);
+        return `<div class="col-md-6 col-lg-4">
       <div class="card-custom">
         <div style="background-image:url('${e.banner}');background-size:cover;background-position:center;border-radius:8px;height:140px;margin-bottom:16px;position:relative;overflow:hidden">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,14,23,0.8),transparent)"></div>
@@ -312,17 +312,17 @@ function renderEvents() {
         </div>
         <h5 class="mb-2">${e.name}</h5>
         <div class="d-flex align-items-center gap-2 mb-2">
-          <div class="event-date"><div class="day">${d.getDate()}</div><div class="month">${d.toLocaleString('default',{month:'short'})}</div></div>
+          <div class="event-date"><div class="day">${d.getDate()}</div><div class="month">${d.toLocaleString('default', { month: 'short' })}</div></div>
           <div><small style="color:var(--text-secondary)"><i class="fas fa-map-marker-alt me-1"></i>${e.location}</small></div>
         </div>
-        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px">${e.desc.substring(0,80)}...</p>
+        <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:12px">${e.desc.substring(0, 80)}...</p>
         <div class="d-flex justify-content-between align-items-center mb-3">
           <span class="badge" style="background:var(--bg-dark);color:var(--text-secondary)">${e.teams} teams</span>
           <span style="color:var(--text-secondary);font-size:0.8rem">${e.format}</span>
         </div>
         <div class="d-flex gap-2">
           <button class="btn-primary-custom flex-grow-1" style="padding:8px;font-size:0.85rem" onclick="showEventDetail(${e.id})">Details</button>
-          <button class="btn-outline-custom" style="padding:8px 14px" onclick="toggleFavorite(${e.id})"><i class="fas fa-star" style="color:${isFav?'var(--primary)':'var(--text-secondary)'}"></i></button>
+          <button class="btn-outline-custom" style="padding:8px 14px" onclick="toggleFavorite(${e.id})"><i class="fas fa-star" style="color:${isFav ? 'var(--primary)' : 'var(--text-secondary)'}"></i></button>
         </div>
       </div>
     </div>`;
@@ -355,7 +355,7 @@ function renderMatchTimeline() {
   let matches = MATCHES;
   if (filter !== 'all') matches = MATCHES.filter(m => m.status === filter);
   // Sort by date
-  matches.sort((a,b) => new Date(a.date) - new Date(b.date));
+  matches.sort((a, b) => new Date(a.date) - new Date(b.date));
   timeline.innerHTML = matches.map((m, i) => {
     const d = new Date(m.date);
     const team1 = TEAMS.find(t => t.name === m.team1);
@@ -363,8 +363,8 @@ function renderMatchTimeline() {
     const statusBadge = m.status === 'past'
       ? `<span class="badge" style="background:rgba(72,187,120,0.2);color:var(--success)">Final: ${m.score} - ${m.winner} wins</span>`
       : m.status === 'ongoing'
-      ? `<span class="badge" style="background:rgba(239,68,68,0.2);color:#ef4444"><i class="fas fa-circle me-1" style="font-size:0.5rem;animation:pulse 1s infinite"></i>LIVE NOW</span>`
-      : `<span class="badge" style="background:rgba(255,107,0,0.2);color:var(--primary)">${m.round}</span>`;
+        ? `<span class="badge" style="background:rgba(239,68,68,0.2);color:#ef4444"><i class="fas fa-circle me-1" style="font-size:0.5rem;animation:pulse 1s infinite"></i>LIVE NOW</span>`
+        : `<span class="badge" style="background:rgba(255,107,0,0.2);color:var(--primary)">${m.round}</span>`;
     return `<div class="timeline-item">
       <div class="timeline-dot"></div>
       <div class="timeline-card">
@@ -421,12 +421,12 @@ function showEventDetail(id) {
 }
 
 function registerEvent(id) {
-  if (!currentUser) { showToast("Please login to register!", "error"); setTimeout(()=>{window.location.href='login.html';},800); return; }
+  if (!currentUser) { showToast("Please login to register!", "error"); setTimeout(() => { window.location.href = 'login.html'; }, 800); return; }
   const regs = getLS('cs2_registrations', []);
   if (regs.find(r => r.eventId === id && r.user === currentUser.username)) {
     showToast("You're already registered for this event!");
   } else {
-    regs.push({eventId: id, user: currentUser.username, date: new Date().toISOString()});
+    regs.push({ eventId: id, user: currentUser.username, date: new Date().toISOString() });
     setLS('cs2_registrations', regs);
     showToast("Successfully registered! Check your email for details.");
   }
@@ -434,7 +434,7 @@ function registerEvent(id) {
 }
 
 function toggleFavorite(id) {
-  if (!currentUser) { showToast("Please login to save favorites!", "error"); setTimeout(()=>{window.location.href='login.html';},800); return; }
+  if (!currentUser) { showToast("Please login to save favorites!", "error"); setTimeout(() => { window.location.href = 'login.html'; }, 800); return; }
   let favs = getLS('cs2_favorites', []);
   if (favs.includes(id)) {
     favs = favs.filter(f => f !== id);
@@ -478,8 +478,8 @@ function renderPlayers() {
     if (teamFilter) filtered = filtered.filter(p => p.team === teamFilter);
     if (roleFilter) filtered = filtered.filter(p => p.role === roleFilter);
     list.innerHTML = filtered.map(p => {
-    const team = TEAMS.find(t => t.name === p.team);
-    return `
+      const team = TEAMS.find(t => t.name === p.team);
+      return `
     <div class="col-md-6 col-lg-4 col-xl-3">
       <div class="player-card">
         <img src="${p.avatar}" class="player-avatar" alt="${p.nick}">
@@ -502,7 +502,7 @@ function renderPlayers() {
   }
   const homeList = document.getElementById('homePlayers');
   if (homeList) {
-    const featured = [...PLAYERS].sort((a,b) => b.rating - a.rating).slice(0, 4);
+    const featured = [...PLAYERS].sort((a, b) => b.rating - a.rating).slice(0, 4);
     homeList.innerHTML = featured.map(p => {
       const team = TEAMS.find(t => t.name === p.team);
       return `
@@ -584,7 +584,7 @@ function addToCart(id) {
   if (!product) return;
   const existing = cart.find(c => c.id === id);
   if (existing) existing.qty++;
-  else cart.push({...product, qty: 1});
+  else cart.push({ ...product, qty: 1 });
   setLS('cs2_cart', cart);
   updateCartUI();
   showToast(product.name + " added to cart!");
@@ -645,10 +645,10 @@ function toggleCart() {
 
 function checkout() {
   if (cart.length === 0) { showToast("Your cart is empty!", "error"); return; }
-  if (!currentUser) { showToast("Please login to checkout!", "error"); toggleCart(); setTimeout(()=>{window.location.href='login.html';},800); return; }
+  if (!currentUser) { showToast("Please login to checkout!", "error"); toggleCart(); setTimeout(() => { window.location.href = 'login.html'; }, 800); return; }
   const total = cart.reduce((s, c) => s + c.price * c.qty, 0);
   const orders = getLS('cs2_orders', []);
-  orders.push({user: currentUser.username, items: cart, total, date: new Date().toISOString()});
+  orders.push({ user: currentUser.username, items: cart, total, date: new Date().toISOString() });
   setLS('cs2_orders', orders);
   cart = [];
   setLS('cs2_cart', cart);
@@ -690,7 +690,7 @@ function renderSubPlans() {
 }
 
 function subscribePlan(name) {
-  if (!currentUser) { showToast("Please login to subscribe!", "error"); setTimeout(()=>{window.location.href='login.html';},800); return; }
+  if (!currentUser) { showToast("Please login to subscribe!", "error"); setTimeout(() => { window.location.href = 'login.html'; }, 800); return; }
   showToast("Successfully subscribed to " + name + " plan!");
 }
 
@@ -715,7 +715,7 @@ function showToast(msg, type) {
   document.getElementById('toastMsg').textContent = msg;
   toast.style.borderColor = type === 'error' ? 'var(--danger)' : 'var(--primary)';
   toast.classList.add('show');
-  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+  setTimeout(function () { toast.classList.remove('show'); }, 3000);
 }
 
 function subscribeNewsletter() {
