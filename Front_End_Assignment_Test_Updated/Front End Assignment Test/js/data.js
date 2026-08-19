@@ -146,7 +146,21 @@ const PLAYERS = [
   {id:27, nick:"Peak", realName:"Chong Xin Yi", team:"Aspire Esports", role:"AWPer", kd:1.34, winrate:54, rating:1.26, country:"Malaysia", age:21, avatar:"https://i.pravatar.cc/150?img=44"},
   {id:28, nick:"Summit", realName:"Muhammad Danish", team:"Aspire Esports", role:"Rifler", kd:1.21, winrate:53, rating:1.14, country:"Malaysia", age:22, avatar:"https://i.pravatar.cc/150?img=28"},
   {id:29, nick:"Climber", realName:"Yap Wei Lun", team:"Aspire Esports", role:"Entry Fragger", kd:1.27, winrate:51, rating:1.18, country:"Malaysia", age:20, avatar:"https://i.pravatar.cc/150?img=31"},
-  {id:30, nick:"Horizon", realName:"Nurul Izzati", team:"Aspire Esports", role:"Support", kd:1.04, winrate:50, rating:0.99, country:"Malaysia", age:23, avatar:"https://i.pravatar.cc/150?img=50"}
+  {id:30, nick:"Horizon", realName:"Nurul Izzati", team:"Aspire Esports", role:"Support", kd:1.04, winrate:50, rating:0.99, country:"Malaysia", age:23, avatar:"https://i.pravatar.cc/150?img=50"},
+
+
+    // Players with no team
+  { id: 31, nick: "Viper", realName: "Marcus Lim", team: "No Team", role: "Entry Fragger", kd: 5.0, winrate: 90, rating: 5.10, country: "Malaysia", age: 22, avatar: "https://i.pravatar.cc/150?img=70", email: "viper@gmail.com" },
+  { id: 32, nick: "Ghost", realName: "Nur Farah", team: "No Team", role: "Lurker", kd: 1.23, winrate: 58, rating: 1.16, country: "Malaysia", age: 24, avatar: "https://i.pravatar.cc/150?img=1", email: "ghost@hotmail.com" },
+  { id: 33, nick: "Phoenix", realName: "Tan Kah Hin", team: "No Team", role: "AWPer", kd: 1.31, winrate: 61, rating: 1.24, country: "Malaysia", age: 21, avatar: "https://i.pravatar.cc/150?img=2", email: "phoenix@1utar.com" },
+  { id: 34, nick: "Spectre", realName: "Muhammad Harith", team: "No Team", role: "Rifler", kd: 3.19, winrate: 70, rating: 3.12, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=13", email: "spectre@yahoo.com" },
+  { id: 35, nick: "Aegis", realName: "Rachel Wong", team: "No Team", role: "Support", kd: 1.07, winrate: 52, rating: 1.01, country: "Malaysia", age: 20, avatar: "https://i.pravatar.cc/150?img=4", email: "Aegis@yahoo.com" },
+  { id: 36, nick: "Cyclone", realName: "Arvin A/L Ganesan", team: "No Team", role: "IGL", kd: 1.11, winrate: 53, rating: 1.08, country: "Malaysia", age: 25, avatar: "https://i.pravatar.cc/150?img=5", email: "cyclone@firefox.com" },
+  { id: 37, nick: "Rogue", realName: "Lim Jia Hao", team: "No Team", role: "Entry Fragger", kd: 1.26, winrate: 57, rating: 1.19, country: "Malaysia", age: 22, avatar: "https://i.pravatar.cc/150?img=6", email: "rogue@outlook.com" },
+  { id: 38, nick: "Siren", realName: "Alya Binti Rosli", team: "No Team", role: "Rifler", kd: 1.17, winrate: 56, rating: 1.11, country: "Malaysia", age: 21, avatar: "https://i.pravatar.cc/150?img=7", email: "siren@facebook.com" },
+  { id: 39, nick: "Titan", realName: "Darren Ng", team: "No Team", role: "AWPer", kd: 1.28, winrate: 59, rating: 1.21, country: "Malaysia", age: 26, avatar: "https://i.pravatar.cc/150?img=9", email: "titan@insta.com" },
+  { id: 40, nick: "Echo", realName: "Siti Aminah", team: "No Team", role: "Support", kd: 1.03, winrate: 50, rating: 0.97, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=52", email: null }
+  
 ];
 
 // ===== EVENTS / MATCHES (Timeline style) =====
