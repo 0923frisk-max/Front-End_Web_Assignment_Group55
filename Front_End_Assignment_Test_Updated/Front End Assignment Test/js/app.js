@@ -568,7 +568,7 @@ function renderFavorites() {
   }).join('') + '</div>';
 }
 
-// ===== PLAYERS =====
+// ===================================================== PLAYERS =====
 function updatePlayerHeader() {
   const playerCountEl = document.getElementById('headerPlayerCount');
   const teamCountEl = document.getElementById('headerTeamCount');
