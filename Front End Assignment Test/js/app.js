@@ -2,7 +2,7 @@
    APEX FORCE ESPORT - Shared JavaScript
    ============================================ */
 
-// ===== STORAGE HELPERS =====
+// STORAGE HELPERS ======================================================= STORAGE HELPERS ================================================================================
 function setCookie(name, value, days) {
   const d = new Date();
   d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -27,7 +27,7 @@ function getSS(key, def) {
 }
 function setSS(key, val) { sessionStorage.setItem(key, JSON.stringify(val)); }
 
-// ===== AUTH =====
+// AUTH ================================================================= AUTH ======================================================================
 let currentUser = null;
 
 function initUsers() {
@@ -141,7 +141,7 @@ function switchAuthTab(tab) {
   }
 }
 
-// ===== PROFILE =====
+// PROFILE ====================================================================== PROFILE ======================================================================
 function loadProfile() {
   if (!currentUser) { window.location.href = 'login.html'; return; }
   const avatar = document.getElementById('profileAvatar');
@@ -219,7 +219,7 @@ function changePassword(e) {
   e.target.reset();
 }
 
-// ===== RANKINGS =====
+// RANKINGS ======================================================= RANKINGS =====================================================================================
 function renderRankings() {
   const search = (document.getElementById('rankSearch')?.value || '').toLowerCase();
   const sort = document.getElementById('rankSort')?.value || 'points';
@@ -280,7 +280,7 @@ function showTeamDetail(name) {
   new bootstrap.Modal(document.getElementById('teamModal')).show();
 }
 
-// ===== EVENTS / TIMELINE =====
+// EVENTS / TIMELINE ======================================================= EVENTS / TIMELINE ===========================================================================
 let currentEventFilter = 'upcoming';
 
 function filterEvents(filter, el) {
@@ -467,7 +467,7 @@ function renderFavorites() {
   }).join('') + '</div>';
 }
 
-// ===== PLAYERS =====
+// PLAYERS ================================================================== PLAYERS ================================================================================
 function updatePlayerHeader() {
   const playerCountEl = document.getElementById('headerPlayerCount');
   const teamCountEl = document.getElementById('headerTeamCount');
@@ -502,12 +502,12 @@ function renderPlayers() {
     
     filtered.sort((a, b) => {
       if (b.kd !== a.kd) {
-        return b.kd - a.kd;           // 1. 先按 K/D 从高到低降序
+        return b.kd - a.kd;        
       }
       if (b.winrate !== a.winrate) {
-        return b.winrate - a.winrate; // 2. K/D 相同时，按 Winrate 从高到低降序
+        return b.winrate - a.winrate; 
       }
-      return b.rating - a.rating;     // 3. 胜率相同时，按 Rating 从高到低降序
+      return b.rating - a.rating;     
     });    
 
     list.innerHTML = filtered.map(p => {
@@ -612,7 +612,7 @@ function initTeamFilter() {
   }
 }
 
-// ===== SHOP / CART =====
+// SHOP / CART ================================================================= SHOP / CART ===========================================================================
 let cart = getLS('cs2_cart', []);
 
 function renderShop() {
@@ -727,7 +727,7 @@ function renderSocialFeed() {
   `).join('');
 }
 
-// ===== SUBSCRIPTION PLANS =====
+//  SUBSCRIPTION PLANS ======================================================= SUBSCRIPTION PLANS ====================================================================================================
 function renderSubPlans() {
   const el = document.getElementById('subPlans');
   if (!el) return;
