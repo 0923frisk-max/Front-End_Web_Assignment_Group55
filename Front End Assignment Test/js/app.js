@@ -468,17 +468,54 @@ function renderFavorites() {
 }
 
 // ===== PLAYERS =====
+function updatePlayerHeader() {
+  const playerCountEl = document.getElementById('headerPlayerCount');
+  const teamCountEl = document.getElementById('headerTeamCount');
+
+  if (playerCountEl && teamCountEl) {
+    const totalPlayers = PLAYERS.length;
+
+    const uniqueTeams = new Set(
+      PLAYERS
+        .map(p => p.team)
+        .filter(teamName => teamName !== "" && teamName.toLowerCase() !== "no team")
+    );
+
+    playerCountEl.textContent = totalPlayers;
+    teamCountEl.textContent = uniqueTeams.size;
+  }
+}
+
 function renderPlayers() {
+  
+  updatePlayerHeader();
+
   const list = document.getElementById('playersList');
   if (list) {
     const search = (document.getElementById('playerSearch')?.value || '').toLowerCase();
     const teamFilter = document.getElementById('playerTeamFilter')?.value || '';
     const roleFilter = document.getElementById('playerRoleFilter')?.value || '';
     let filtered = PLAYERS.filter(p => p.nick.toLowerCase().includes(search) || p.realName.toLowerCase().includes(search));
-    if (teamFilter) filtered = filtered.filter(p => p.team === teamFilter);
+    if (teamFilter) filtered = filtered.filter(p => (p.team || "No Team") === teamFilter);
+    //if (teamFilter) filtered = filtered.filter(p => p.team === teamFilter);
     if (roleFilter) filtered = filtered.filter(p => p.role === roleFilter);
+    
+    filtered.sort((a, b) => {
+      if (b.kd !== a.kd) {
+        return b.kd - a.kd;           // 1. 先按 K/D 从高到低降序
+      }
+      if (b.winrate !== a.winrate) {
+        return b.winrate - a.winrate; // 2. K/D 相同时，按 Winrate 从高到低降序
+      }
+      return b.rating - a.rating;     // 3. 胜率相同时，按 Rating 从高到低降序
+    });    
+
     list.innerHTML = filtered.map(p => {
       const team = TEAMS.find(t => t.name === p.team);
+
+      const teamName = p.team || "No Team";
+      const teamLogo = team?.logo || IMG.defaultProfile;
+
       return `
     <div class="col-md-6 col-lg-4 col-xl-3">
       <div class="player-card">
@@ -522,6 +559,15 @@ function showPlayerDetail(id) {
   const p = PLAYERS.find(x => x.id === id);
   if (!p) return;
   const team = TEAMS.find(t => t.name === p.team);
+
+  const teamName = p.team || "No Team";
+  const teamLogo = team?.logo || IMG.defaultProfile;
+
+  const hasEmail = Boolean(p.email);
+  const buttonText = hasEmail ? "Contact" : "No Contact";
+  const buttonHref = hasEmail ? `href="mailto:${p.email}"` : "javascript:void(0)";
+  const buttonClass = hasEmail ? "btn-outline-custom" : "btn-outline-secondary disabled";  
+  
   document.getElementById('playerModalName').textContent = p.nick;
   document.getElementById('playerModalBody').innerHTML = `
     <div class="text-center mb-3">
@@ -538,7 +584,14 @@ function showPlayerDetail(id) {
       <div class="col-4"><div style="font-size:1.3rem;font-weight:800">${p.winrate}%</div><small style="color:var(--text-secondary)">Win Rate</small></div>
       <div class="col-4"><div style="font-size:1.3rem;font-weight:800">${p.rating}</div><small style="color:var(--text-secondary)">HLTV Rating</small></div>
     </div>
-    <p><strong>Role:</strong> ${p.role} | <strong>Team:</strong> ${p.team}</p>
+    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+      <div>
+        <strong>Role:</strong> ${p.role} &nbsp;|&nbsp; <strong>Team:</strong> ${p.team}
+      </div>
+      <a ${buttonHref} class="btn btn-sm ${buttonClass} d-flex align-items-center gap-1" title="${hasEmail ? 'Contact ' + p.nick : 'No contact available'}">
+        <i class="bi bi-envelope-fill"></i> ${buttonText}
+      </a>
+    </div>
   `;
   new bootstrap.Modal(document.getElementById('playerModal')).show();
 }
@@ -551,6 +604,11 @@ function initTeamFilter() {
       opt.value = t.name; opt.textContent = t.name;
       sel.appendChild(opt);
     });
+
+    const noTeamOpt = document.createElement('option');
+    noTeamOpt.value = "No Team";
+    noTeamOpt.textContent = "No Team (Free Agents)";
+    sel.appendChild(noTeamOpt);
   }
 }
 
