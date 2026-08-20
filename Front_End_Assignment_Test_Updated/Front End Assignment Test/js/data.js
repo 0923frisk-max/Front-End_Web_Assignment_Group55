@@ -35,7 +35,9 @@ const TEAMS = [
     captain: "FrostByte",
     tagline: "UNITED BY FROST. DRIVEN BY VICTORY.",
     bio: "One of Malaysia's most established esports organizations, known for their icy calm under pressure and aggressive late-round tactics. The Arctic Wolves have dominated the national circuit for three consecutive seasons.",
-    color: "#3B82F6"
+    color: "#3B82F6",
+    website: "https://twitter.com/arcticwolvesgg"
+
   },
   {
     name: "Inferno Dragons",
@@ -48,7 +50,9 @@ const TEAMS = [
     captain: "Blaze",
     tagline: "BURN THE LIMITS. CONQUER ALL.",
     bio: "Veteran Malaysian esports team with a fiery CS:GO legacy. The Dragons bring explosive energy and fearless aggression to every match, burning through their opponents with calculated ferocity.",
-    color: "#EF4444"
+    color: "#EF4444",
+    website: "https://www.instagram.com/infernodragonsgg"
+
   },
   {
     name: "Golden Falcons",
@@ -61,7 +65,9 @@ const TEAMS = [
     captain: "Talons",
     tagline: "SPEED. PRECISION. VICTORY.",
     bio: "Rising powerhouse from Penang with a young, talented roster. The Falcons strike with lightning speed and pinpoint precision, soaring above the competition with their high-flying playstyle.",
-    color: "#F59E0B"
+    color: "#F59E0B",
+    website: "https://www.goldenfalconsesports.com"
+
   },
   {
     name: "Ocean Titans",
@@ -74,7 +80,9 @@ const TEAMS = [
     captain: "TideCaller",
     tagline: "STRENGTH IN UNITY. TITANS FOREVER.",
     bio: "Fast-emerging team from southern Malaysia, drawing strength from the deep. The Titans play with overwhelming force and unbreakable unity, crashing through defenses like tidal waves.",
-    color: "#06B6D4"
+    color: "#06B6D4",
+    website: "https://twitter.com/oceantitansgg"
+
   },
   {
     name: "Nova Esports",
@@ -87,7 +95,8 @@ const TEAMS = [
     captain: "Shadow",
     tagline: "RISE FROM THE DARKNESS.",
     bio: "East Malaysian representatives making waves in the national scene. Nova plays with mysterious, shadowy tactics, striking from the darkness and leaving opponents guessing.",
-    color: "#6366F1"
+    color: "#6366F1",
+    website: "https://www.instagram.com/novaesportsgg"
   },
   {
     name: "Aspire Esports",

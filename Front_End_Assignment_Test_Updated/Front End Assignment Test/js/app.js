@@ -556,6 +556,12 @@ function showTeamDetail(name) {
   if (!t) return;
   const wr = Math.round(t.wins / (t.wins + t.losses) * 100);
   const roster = PLAYERS.filter(p => p.team === name);
+
+  const hasWebsite = Boolean(t.website);
+  const websiteText = hasWebsite ? "Website / Social Media" : "No Website";
+  const websiteHref = hasWebsite ? `href="${t.website}" target="_blank" rel="noopener noreferrer"` : "javascript:void(0)";
+  const websiteClass = hasWebsite ? "btn-outline-custom" : "btn-outline-secondary disabled";
+
   document.getElementById('teamModalName').innerHTML = `<img src="${t.logo}" class="team-logo-img me-2" alt="${t.name}"> ${t.name}`;
   document.getElementById('teamModalBody').innerHTML = `
     <p style="color:var(--text-secondary)">${t.bio}</p>
@@ -565,7 +571,14 @@ function showTeamDetail(name) {
       <div class="col-4 text-center"><div style="font-size:1.5rem;font-weight:800;color:var(--success)">${t.wins}</div><small style="color:var(--text-secondary)">Wins</small></div>
       <div class="col-4 text-center"><div style="font-size:1.5rem;font-weight:800">${wr}%</div><small style="color:var(--text-secondary)">Win Rate</small></div>
     </div>
-    <p><strong>Region:</strong> ${t.region} | <strong>Founded:</strong> ${t.founded} | <strong>Captain:</strong> ${t.captain}</p>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <strong>Region:</strong> ${t.region} | <strong>Founded:</strong> ${t.founded} | <strong>Captain:</strong> ${t.captain}
+      </div>
+      <a ${websiteHref} class="btn btn-sm ${websiteClass} d-flex align-items-center gap-1" title="${hasWebsite ? 'Visit ' + t.name + ' website' : 'No website available'}">
+        <i class="fas fa-globe"></i> ${websiteText}
+      </a>
+    </div>
     <h6 class="mt-3 mb-2">Roster (${roster.length} players)</h6>
     <div class="d-flex flex-wrap gap-2">
       ${roster.length ? roster.map(p => `<span class="badge" style="background:var(--bg-dark);padding:8px 14px;border-radius:20px;border:1px solid var(--border)"><img src="${p.avatar}" style="width:20px;height:20px;border-radius:50%;margin-right:5px;vertical-align:middle"> ${p.nick} <small style="color:var(--text-secondary)">(${p.role})</small></span>`).join('') : '<span style="color:var(--text-secondary)">No roster data</span>'}
