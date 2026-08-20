@@ -395,11 +395,23 @@ function loadLeagueCountryInfo() {
 }
 loadLeagueCountryInfo();
 
+
 // ===== RESTFUL API: QuickChart.io - Player Role Performance Chart (ranking.html) =====
 function renderRoleStatsChart() {
   const wrap = document.getElementById('roleStatsChartWrap');
   const img = document.getElementById('roleStatsChart');
   if (!wrap || !img) return;
+  const msgEl = wrap.querySelector('p');
+
+  const showKD = document.getElementById('statToggleKD')?.checked;
+  const showWinRate = document.getElementById('statToggleWinRate')?.checked;
+  const showRating = document.getElementById('statToggleRating')?.checked;
+
+  if (!showKD && !showWinRate && !showRating) {
+    img.style.display = 'none';
+    if (msgEl) { msgEl.style.display = 'block'; msgEl.innerHTML = '<span style="color:var(--text-secondary)">Select at least one stat to display the chart.</span>'; }
+    return;
+  }
 
   const roles = ['AWPer', 'Rifler', 'IGL', 'Support', 'Lurker', 'Entry Fragger'];
   const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
@@ -412,41 +424,49 @@ function renderRoleStatsChart() {
     ratingData.push(+avg(group.map(p => p.rating)).toFixed(2));
   });
 
+  // Build datasets based on which checkboxes are selected
+  const hasLeftAxisMetric = showKD || showRating; // K/D & Rating share a left axis (similar scale)
+  const datasets = [];
+  const titleParts = [];
+  if (showKD) { datasets.push({ label: 'K/D', data: kdData, backgroundColor: '#FF6B00', yAxisID: 'y-kd' }); titleParts.push('K/D'); }
+  if (showRating) { datasets.push({ label: 'Rating', data: ratingData, backgroundColor: '#4299E1', yAxisID: 'y-kd' }); titleParts.push('Rating'); }
+  if (showWinRate) { datasets.push({ label: 'Win Rate (%)', data: winRateData, backgroundColor: '#48BB78', yAxisID: 'y-pct' }); titleParts.push('Win Rate'); }
+
+  // Build the Y axes to match exactly what's being shown
+  const yAxes = [];
+  if (hasLeftAxisMetric) {
+    yAxes.push({ id: 'y-kd', type: 'linear', position: 'left', ticks: { fontColor: '#ffffff', beginAtZero: true }, gridLines: { color: 'rgba(255,255,255,0.08)' }, scaleLabel: { display: true, labelString: showKD && showRating ? 'K/D & Rating' : (showKD ? 'K/D' : 'Rating'), fontColor: '#ffffff' } });
+  }
+  if (showWinRate) {
+    yAxes.push({ id: 'y-pct', type: 'linear', position: hasLeftAxisMetric ? 'right' : 'left', ticks: { fontColor: '#ffffff', beginAtZero: true, max: 100 }, gridLines: { drawOnChartArea: !hasLeftAxisMetric, color: 'rgba(255,255,255,0.08)' }, scaleLabel: { display: true, labelString: 'Win Rate (%)', fontColor: '#ffffff' } });
+  }
+
   const chartConfig = {
     type: 'bar',
-    data: {
-      labels: roles,
-      datasets: [
-        { label: 'K/D', data: kdData, backgroundColor: '#FF6B00', yAxisID: 'y-kd' },
-        { label: 'Win Rate (%)', data: winRateData, backgroundColor: '#48BB78', yAxisID: 'y-pct' },
-        { label: 'Rating', data: ratingData, backgroundColor: '#4299E1', yAxisID: 'y-kd' }
-      ]
-    },
+    data: { labels: roles, datasets: datasets },
     options: {
-      title: { display: true, text: 'Average K/D, Win Rate & Rating by Player Role', fontColor: '#ffffff', fontSize: 16 },
+      title: { display: true, text: 'Average ' + titleParts.join(' + ') + ' by Player Role', fontColor: '#ffffff', fontSize: 16 },
       legend: { labels: { fontColor: '#ffffff' } },
       scales: {
         xAxes: [{ ticks: { fontColor: '#ffffff' }, gridLines: { color: 'rgba(255,255,255,0.08)' } }],
-        yAxes: [
-          { id: 'y-kd', type: 'linear', position: 'left', ticks: { fontColor: '#ffffff', beginAtZero: true }, gridLines: { color: 'rgba(255,255,255,0.08)' }, scaleLabel: { display: true, labelString: 'K/D & Rating', fontColor: '#ffffff' } },
-          { id: 'y-pct', type: 'linear', position: 'right', ticks: { fontColor: '#ffffff', beginAtZero: true, max: 100 }, gridLines: { drawOnChartArea: false }, scaleLabel: { display: true, labelString: 'Win Rate (%)', fontColor: '#ffffff' } }
-        ]
+        yAxes: yAxes
       }
     }
   };
 
   const url = 'https://quickchart.io/chart?width=900&height=420&devicePixelRatio=2&backgroundColor=%2312161f&format=png&c=' + encodeURIComponent(JSON.stringify(chartConfig));
 
+  if (msgEl) { msgEl.style.display = 'block'; msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading chart from QuickChart.io API...'; }
+  img.style.display = 'none';
   img.onload = function() {
-    wrap.querySelector('p').style.display = 'none';
+    if (msgEl) msgEl.style.display = 'none';
     img.style.display = 'inline-block';
   };
   img.onerror = function() {
-    wrap.querySelector('p').innerHTML = '<span style="color:var(--danger)">Failed to load chart from QuickChart.io API.</span>';
+    if (msgEl) msgEl.innerHTML = '<span style="color:var(--danger)">Failed to load chart from QuickChart.io API.</span>';
   };
   img.src = url;
 }
-
 renderRoleStatsChart();
 
 

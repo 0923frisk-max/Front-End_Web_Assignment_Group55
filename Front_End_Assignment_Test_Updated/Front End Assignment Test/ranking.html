@@ -126,6 +126,23 @@
   <!-- Player Role Performance Chart (QuickChart.io REST API) -->
   <div class="card-custom mt-4">
     <h5 class="mb-3"><i class="fas fa-chart-bar me-2" style="color:var(--primary)"></i>Player Role Performance</h5>
+
+    <div class="d-flex flex-wrap gap-4 mb-3 p-3" style="background:rgba(255,255,255,0.03);border-radius:8px;border:1px solid var(--border)">
+      <span style="color:var(--text-secondary);font-size:0.85rem;align-self:center"><i class="fas fa-filter me-1"></i>Show:</span>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="statToggleKD" checked onchange="renderRoleStatsChart()">
+        <label class="form-check-label" for="statToggleKD" style="color:#FF6B00">K/D</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="statToggleWinRate" checked onchange="renderRoleStatsChart()">
+        <label class="form-check-label" for="statToggleWinRate" style="color:#48BB78">Win Rate</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="statToggleRating" checked onchange="renderRoleStatsChart()">
+        <label class="form-check-label" for="statToggleRating" style="color:#4299E1">Rating</label>
+      </div>
+    </div>
+
     <div class="text-center" id="roleStatsChartWrap">
       <p style="color:var(--text-secondary);font-size:0.85rem"><i class="fas fa-spinner fa-spin me-1"></i>Loading chart from QuickChart.io API...</p>
       <img id="roleStatsChart" alt="Average K/D, Win Rate and Rating by player role" style="max-width:100%;border-radius:8px;display:none">
