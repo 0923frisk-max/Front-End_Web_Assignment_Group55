@@ -146,7 +146,7 @@ const PLAYERS = [
   { id: 27, nick: "Peak", realName: "Chong Xin Yi", team: "Aspire Esports", role: "AWPer", kd: 1.34, winrate: 54, rating: 1.26, country: "Malaysia", age: 21, avatar: "https://i.pravatar.cc/150?img=44", email: "peak@aspireesports.com" },
   { id: 28, nick: "Summit", realName: "Muhammad Danish", team: "Aspire Esports", role: "Rifler", kd: 1.21, winrate: 53, rating: 1.14, country: "Malaysia", age: 22, avatar: "https://i.pravatar.cc/150?img=28", email: "summit@aspireesports.com" },
   { id: 29, nick: "Climber", realName: "Yap Wei Lun", team: "Aspire Esports", role: "Entry Fragger", kd: 1.27, winrate: 51, rating: 1.18, country: "Malaysia", age: 20, avatar: "https://i.pravatar.cc/150?img=31", email: "climber@aspireesports.com" },
-  { id: 30, nick: "Horizon", realName: "Nurul Izzati", team: "Aspire Esports", role: "Support", kd: 1.04, winrate: 50, rating: 0.99, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=50" , email: "horizon@aspireesports.com"},
+  { id: 30, nick: "Horizon", realName: "Nurul Izzati", team: "Aspire Esports", role: "Support", kd: 0.5, winrate: 25, rating: 0.59, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=50" , email: "horizon@aspireesports.com"},
 
   // Players with no team
   { id: 31, nick: "Viper", realName: "Marcus Lim", team: "No Team", role: "Entry Fragger", kd: 5.0, winrate: 90, rating: 5.10, country: "Malaysia", age: 22, avatar: "https://i.pravatar.cc/150?img=70", email: "viper@gmail.com" },
@@ -158,7 +158,7 @@ const PLAYERS = [
   { id: 37, nick: "Rogue", realName: "Lim Jia Hao", team: "No Team", role: "Entry Fragger", kd: 1.26, winrate: 57, rating: 1.19, country: "Malaysia", age: 22, avatar: "https://i.pravatar.cc/150?img=6", email: "rogue@outlook.com" },
   { id: 38, nick: "Siren", realName: "Alya Binti Rosli", team: "No Team", role: "Rifler", kd: 1.17, winrate: 56, rating: 1.11, country: "Malaysia", age: 21, avatar: "https://i.pravatar.cc/150?img=7", email: "siren@facebook.com" },
   { id: 39, nick: "Titan", realName: "Darren Ng", team: "No Team", role: "AWPer", kd: 1.28, winrate: 59, rating: 1.21, country: "Malaysia", age: 26, avatar: "https://i.pravatar.cc/150?img=9", email: "titan@insta.com" },
-  { id: 40, nick: "Echo", realName: "Siti Aminah", team: "No Team", role: "Support", kd: 1.03, winrate: 50, rating: 0.97, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=52", email: null }
+  { id: 40, nick: "Echo", realName: "Siti Aminah", team: "No Team", role: "Support", kd: 0.01, winrate: 10, rating: 0.10, country: "Malaysia", age: 23, avatar: "https://i.pravatar.cc/150?img=52", email: null }
   
 ];
 
