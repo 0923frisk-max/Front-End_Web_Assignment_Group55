@@ -175,6 +175,8 @@ function loadProfile() {
     statSince.textContent = new Date(currentUser.createdAt).toLocaleDateString();
   }
   renderFavorites();
+  renderFavoritePlayers();
+
 }
 
 // ===== RESTFUL API: randomuser.me (jQuery $.ajax GET) =====
@@ -357,6 +359,97 @@ function fetchCountryInfo() {
     }
   });
 }
+
+
+// ===== RESTFUL API: REST Countries - League Country Info (ranking.html) =====
+function loadLeagueCountryInfo() {
+  const card = document.getElementById('leagueCountryCard');
+  console.log(card)
+  if (!card) return;
+  $.ajax({
+    url: 'https://countries.dev/name/Malaysia',
+    method: 'GET',
+    dataType: 'json',
+    success: function(res) {
+      const c = Array.isArray(res) ? res[0] : res;
+      if (!c || !c.name) { card.innerHTML = '<p style="color:var(--danger);margin:0">Country data not found.</p>'; return; }
+      const languages = Array.isArray(c.languages) ? c.languages.map(l => l.name).join(', ') : 'N/A';
+      const flagUrl = (c.flags && (c.flags.svg || c.flags.png)) || '';
+      card.innerHTML = `
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          ${flagUrl ? `<img src="${flagUrl}" alt="${c.name} flag" style="width:72px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
+          <div class="flex-grow-1">
+            <h6 class="mb-1"><i class="fas fa-trophy me-2" style="color:var(--primary)"></i>${c.name} - Host of APEX FORCE ESPORT CS2 League</h6>
+            <p class="mb-0" style="color:var(--text-secondary);font-size:0.85rem">
+              Capital: ${c.capital || 'N/A'} &bull; Region: ${c.subregion || c.region} &bull; Population: ${(c.population || 0).toLocaleString()}<br>
+              Languages: ${languages}
+            </p>
+          </div>
+          <span class="badge" style="background:rgba(255,107,0,0.15);color:var(--primary);font-size:0.7rem">via countries.dev API</span>
+        </div>`;
+    },
+    error: function() {
+      card.innerHTML = '<p style="color:var(--danger);margin:0">Failed to load country info from countries.dev API.</p>';
+    }
+  });
+}
+loadLeagueCountryInfo();
+
+// ===== RESTFUL API: QuickChart.io - Player Role Performance Chart (ranking.html) =====
+function renderRoleStatsChart() {
+  const wrap = document.getElementById('roleStatsChartWrap');
+  const img = document.getElementById('roleStatsChart');
+  if (!wrap || !img) return;
+
+  const roles = ['AWPer', 'Rifler', 'IGL', 'Support', 'Lurker', 'Entry Fragger'];
+  const avg = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+
+  const kdData = [], winRateData = [], ratingData = [];
+  roles.forEach(role => {
+    const group = PLAYERS.filter(p => p.role === role);
+    kdData.push(+avg(group.map(p => p.kd)).toFixed(2));
+    winRateData.push(+avg(group.map(p => p.winrate)).toFixed(1));
+    ratingData.push(+avg(group.map(p => p.rating)).toFixed(2));
+  });
+
+  const chartConfig = {
+    type: 'bar',
+    data: {
+      labels: roles,
+      datasets: [
+        { label: 'K/D', data: kdData, backgroundColor: '#FF6B00', yAxisID: 'y-kd' },
+        { label: 'Win Rate (%)', data: winRateData, backgroundColor: '#48BB78', yAxisID: 'y-pct' },
+        { label: 'Rating', data: ratingData, backgroundColor: '#4299E1', yAxisID: 'y-kd' }
+      ]
+    },
+    options: {
+      title: { display: true, text: 'Average K/D, Win Rate & Rating by Player Role', fontColor: '#ffffff', fontSize: 16 },
+      legend: { labels: { fontColor: '#ffffff' } },
+      scales: {
+        xAxes: [{ ticks: { fontColor: '#ffffff' }, gridLines: { color: 'rgba(255,255,255,0.08)' } }],
+        yAxes: [
+          { id: 'y-kd', type: 'linear', position: 'left', ticks: { fontColor: '#ffffff', beginAtZero: true }, gridLines: { color: 'rgba(255,255,255,0.08)' }, scaleLabel: { display: true, labelString: 'K/D & Rating', fontColor: '#ffffff' } },
+          { id: 'y-pct', type: 'linear', position: 'right', ticks: { fontColor: '#ffffff', beginAtZero: true, max: 100 }, gridLines: { drawOnChartArea: false }, scaleLabel: { display: true, labelString: 'Win Rate (%)', fontColor: '#ffffff' } }
+        ]
+      }
+    }
+  };
+
+  const url = 'https://quickchart.io/chart?width=900&height=420&devicePixelRatio=2&backgroundColor=%2312161f&format=png&c=' + encodeURIComponent(JSON.stringify(chartConfig));
+
+  img.onload = function() {
+    wrap.querySelector('p').style.display = 'none';
+    img.style.display = 'inline-block';
+  };
+  img.onerror = function() {
+    wrap.querySelector('p').innerHTML = '<span style="color:var(--danger)">Failed to load chart from QuickChart.io API.</span>';
+  };
+  img.src = url;
+}
+
+renderRoleStatsChart();
+
+
 
 function saveProfile(e) {
   e.preventDefault();
@@ -649,6 +742,87 @@ function renderFavorites() {
 }
 
 // ===================================================== PLAYERS =====
+
+// ===== FAVORITE PLAYERS (localStorage) =====
+function isFavPlayer(id) {
+  const favs = getLS('cs2_favPlayers', []);
+  return favs.includes(id);
+}
+
+function toggleFavoritePlayer(id) {
+  if (!currentUser) {
+    showToast("Please login to save favorite players!", "error");
+    setTimeout(() => { window.location.href = 'login.html'; }, 800);
+    return;
+  }
+  let favs = getLS('cs2_favPlayers', []);
+  if (favs.includes(id)) {
+    favs = favs.filter(f => f !== id);
+    showToast("Removed from favorite players");
+  } else {
+    favs.push(id);
+    showToast("Added to favorite players!");
+  }
+  setLS('cs2_favPlayers', favs);
+  renderPlayers();
+  renderFavoritePlayers();
+}
+
+function renderFavoritePlayers() {
+  const el = document.getElementById('favPlayersList');
+  if (!el) return;
+  const favs = getLS('cs2_favPlayers', []);
+  const favPlayers = PLAYERS.filter(p => favs.includes(p.id));
+  if (favPlayers.length === 0) {
+    el.innerHTML = '<div class="text-center py-5" style="color:var(--text-secondary)"><i class="fas fa-star" style="font-size:3rem;color:var(--border)"></i><p class="mt-3">No favorite players yet. Browse players and click the star to save them!</p><a href="players.html" class="btn-outline-custom">Browse Players</a></div>';
+    return;
+  }
+  el.innerHTML = '<div class="row g-3">' + favPlayers.map(p => {
+    return `<div class="col-md-6"><div class="card-custom d-flex align-items-center gap-3">
+      <img src="${p.avatar}" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+      <div class="flex-grow-1"><h6 class="mb-1">${p.nick}</h6><small style="color:var(--text-secondary)">${p.team || 'No Team'} • ${p.role}</small></div>
+      <button class="btn btn-sm" style="color:var(--danger)" onclick="toggleFavoritePlayer(${p.id})"><i class="fas fa-trash"></i></button>
+    </div></div>`;
+  }).join('') + '</div>';
+}
+
+
+function updatePlayerHeader() {
+  const playerCountEl = document.getElementById('headerPlayerCount');
+  const teamCountEl = document.getElementById('headerTeamCount');
+
+  if (playerCountEl && teamCountEl) {
+    const totalPlayers = PLAYERS.length;
+
+    const uniqueTeams = new Set(
+      PLAYERS
+        .map(p => p.team)
+        .filter(teamName => teamName !== "" && teamName.toLowerCase() !== "no team")
+    );
+
+    playerCountEl.textContent = totalPlayers;
+    teamCountEl.textContent = uniqueTeams.size;
+  }
+}
+
+function renderFavoritePlayers() {
+  const el = document.getElementById('favPlayersList');
+  if (!el) return;
+  const favs = getLS('cs2_favPlayers', []);
+  const favPlayers = PLAYERS.filter(p => favs.includes(p.id));
+  if (favPlayers.length === 0) {
+    el.innerHTML = '<div class="text-center py-5" style="color:var(--text-secondary)"><i class="fas fa-star" style="font-size:3rem;color:var(--border)"></i><p class="mt-3">No favorite players yet. Browse players and click the star to save them!</p><a href="players.html" class="btn-outline-custom">Browse Players</a></div>';
+    return;
+  }
+  el.innerHTML = '<div class="row g-3">' + favPlayers.map(p => {
+    return `<div class="col-md-6"><div class="card-custom d-flex align-items-center gap-3">
+      <img src="${p.avatar}" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
+      <div class="flex-grow-1"><h6 class="mb-1">${p.nick}</h6><small style="color:var(--text-secondary)">${p.team || 'No Team'} • ${p.role}</small></div>
+      <button class="btn btn-sm" style="color:var(--danger)" onclick="toggleFavoritePlayer(${p.id})"><i class="fas fa-trash"></i></button>
+    </div></div>`;
+  }).join('') + '</div>';
+}
+
 function updatePlayerHeader() {
   const playerCountEl = document.getElementById('headerPlayerCount');
   const teamCountEl = document.getElementById('headerTeamCount');
@@ -713,7 +887,12 @@ function renderPlayers() {
           <div><div style="font-weight:800">${p.winrate}%</div><small style="color:var(--text-secondary)">Win</small></div>
           <div><div style="font-weight:800">${p.rating}</div><small style="color:var(--text-secondary)">Rating</small></div>
         </div>
-        <button class="btn-outline-custom w-100 mt-3" style="padding:6px;font-size:0.8rem" onclick="showPlayerDetail(${p.id})">View Profile</button>
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn-outline-custom flex-grow-1" style="padding:6px;font-size:0.8rem" onclick="showPlayerDetail(${p.id})">View Profile</button>
+          <button class="btn-outline-custom" style="padding:6px 12px" onclick="toggleFavoritePlayer(${p.id})" title="${isFavPlayer(p.id) ? 'Remove from favorites' : 'Add to favorites'}">
+            <i class="fas fa-star" style="color:${isFavPlayer(p.id) ? 'var(--primary)' : 'var(--text-secondary)'}"></i>
+          </button>
+        </div>
       </div>
     </div>`;
     }).join('');
