@@ -244,36 +244,116 @@ function fetchGithubUser() {
   });
 }
 
-// ===== RESTFUL API: REST Countries (jQuery $.ajax GET) =====
+// ===== RESTFUL API: Country Info (jQuery $.ajax GET) =====
 function fetchCountryInfo() {
   const queryInput = document.getElementById('countryQuery');
   const result = document.getElementById('countryResult');
   if (!queryInput || !result) return;
+
   const query = queryInput.value.trim();
-  if (!query) { result.innerHTML = '<p style="color:var(--danger)">Please enter a country name.</p>'; return; }
-  result.innerHTML = '<p style="color:var(--text-secondary)"><i class="fas fa-spinner fa-spin me-1"></i>Calling https://restcountries.com/v3.1/name/' + query + ' ...</p>';
+  if (!query) {
+    result.innerHTML = '<p style="color:var(--danger)">Please enter a country name.</p>';
+    return;
+  }
+
+  result.innerHTML = '<p style="color:var(--text-secondary)"><i class="fas fa-spinner fa-spin me-1"></i>Loading country information...</p>';
+
+  // The old restcountries.com/v3.1 endpoint is no longer reliable.
+  // Use APICountries instead; it is a public RESTful country-data API and
+  // does not require exposing an API key in this frontend assignment.
+  const apiUrl = 'https://www.apicountries.com/name/' + encodeURIComponent(query);
+
+  function renderCountry(c) {
+    if (!c) {
+      result.innerHTML = '<p style="color:var(--danger)">Country not found.</p>';
+      return;
+    }
+
+    // Support both the APICountries response shape and REST Countries-like shapes.
+    const countryName = typeof c.name === 'string'
+      ? c.name
+      : (c.name && (c.name.common || c.name.official)) || query;
+
+    const capital = Array.isArray(c.capital)
+      ? (c.capital[0] || 'N/A')
+      : (c.capital || 'N/A');
+
+    const region = c.region || c.subregion || 'N/A';
+    const population = Number(c.population || 0);
+
+    let languages = 'N/A';
+    if (Array.isArray(c.languages)) {
+      languages = c.languages.map(lang => lang.name || lang.nativeName || lang).filter(Boolean).join(', ') || 'N/A';
+    } else if (c.languages && typeof c.languages === 'object') {
+      languages = Object.values(c.languages).join(', ') || 'N/A';
+    }
+
+    // Build a valid flag IMAGE URL. Some country datasets return c.flag as
+    // an emoji (e.g. 🇲🇾), which cannot be used as an <img src>.
+    const alpha2Code = (c.alpha2Code || c.cca2 || (c.codes && c.codes.alpha_2) || '').toLowerCase();
+    const directFlagUrl =
+      (c.flags && (c.flags.svg || c.flags.png)) ||
+      (c.flag && typeof c.flag === 'object' && (c.flag.svg || c.flag.png)) ||
+      (typeof c.flag === 'string' && /^https?:\/\//i.test(c.flag) ? c.flag : '');
+
+    const flagUrl = directFlagUrl ||
+      (alpha2Code ? `https://flagcdn.com/${alpha2Code}.svg` : '');
+
+    const flagHtml = flagUrl
+      ? `<img src="${flagUrl}" alt="${countryName} flag" style="width:64px;height:44px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">`
+      : '<div style="width:64px;height:44px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:4px"><i class="fas fa-flag"></i></div>';
+
+    result.innerHTML = `
+      <div class="d-flex align-items-center gap-3">
+        ${flagHtml}
+        <div>
+          <strong>${countryName}</strong>
+          <p class="mb-0" style="color:var(--text-secondary);font-size:0.85rem">
+            Capital: ${capital} &bull; Region: ${region} &bull; Population: ${population ? population.toLocaleString() : 'N/A'}<br>
+            Languages: ${languages}
+          </p>
+        </div>
+      </div>`;
+  }
+
   $.ajax({
-    url: 'https://restcountries.com/v3.1/name/' + encodeURIComponent(query) + '?fields=name,capital,region,population,flags,languages',
+    url: apiUrl,
     method: 'GET',
     dataType: 'json',
+    timeout: 10000,
     success: function(res) {
-      const c = Array.isArray(res) ? res[0] : res;
-      if (!c) { result.innerHTML = '<p style="color:var(--danger)">Country not found.</p>'; return; }
-      const languages = c.languages ? Object.values(c.languages).join(', ') : 'N/A';
-      result.innerHTML = `
-        <div class="d-flex align-items-center gap-3">
-          <img src="${c.flags.svg || c.flags.png}" alt="${c.name.common} flag" style="width:64px;height:44px;object-fit:cover;border-radius:4px;border:1px solid var(--border)">
-          <div>
-            <strong>${c.name.common}</strong>
-            <p class="mb-0" style="color:var(--text-secondary);font-size:0.85rem">
-              Capital: ${(c.capital && c.capital[0]) || 'N/A'} &bull; Region: ${c.region} &bull; Population: ${c.population.toLocaleString()}<br>
-              Languages: ${languages}
-            </p>
-          </div>
-        </div>`;
+      const c = Array.isArray(res) ? res[0] : (res && res.data ? (Array.isArray(res.data) ? res.data[0] : res.data) : res);
+      renderCountry(c);
     },
     error: function() {
-      result.innerHTML = '<p style="color:var(--danger)">REST Countries API request failed.</p>';
+      // Fallback dataset keeps the demo usable if the public API is temporarily unavailable.
+      $.ajax({
+        url: 'https://raw.githubusercontent.com/mledoze/countries/master/countries.json',
+        method: 'GET',
+        dataType: 'json',
+        timeout: 10000,
+        success: function(data) {
+          const list = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : []);
+          const q = query.toLowerCase();
+          const c = list.find(item => {
+            const name = typeof item.name === 'string'
+              ? item.name
+              : (item.name && item.name.common) || '';
+            return name.toLowerCase() === q;
+          }) || list.find(item => {
+            const name = typeof item.name === 'string'
+              ? item.name
+              : (item.name && item.name.common) || '';
+            return name.toLowerCase().includes(q);
+          });
+
+          if (c) renderCountry(c);
+          else result.innerHTML = '<p style="color:var(--danger)">Country not found.</p>';
+        },
+        error: function() {
+          result.innerHTML = '<p style="color:var(--danger)">Country information request failed. Please check your internet connection and try again.</p>';
+        }
+      });
     }
   });
 }
