@@ -176,6 +176,7 @@ function loadProfile() {
   }
   renderFavorites();
   renderFavoritePlayers();
+
 }
 
 // ===== RESTFUL API: randomuser.me (jQuery $.ajax GET) =====
@@ -278,6 +279,42 @@ function fetchCountryInfo() {
     }
   });
 }
+
+
+// ===== RESTFUL API: REST Countries - League Country Info (ranking.html) =====
+function loadLeagueCountryInfo() {
+  const card = document.getElementById('leagueCountryCard');
+  console.log(card)
+  if (!card) return;
+  $.ajax({
+    url: 'https://countries.dev/name/Malaysia',
+    method: 'GET',
+    dataType: 'json',
+    success: function(res) {
+      const c = Array.isArray(res) ? res[0] : res;
+      if (!c || !c.name) { card.innerHTML = '<p style="color:var(--danger);margin:0">Country data not found.</p>'; return; }
+      const languages = Array.isArray(c.languages) ? c.languages.map(l => l.name).join(', ') : 'N/A';
+      const flagUrl = (c.flags && (c.flags.svg || c.flags.png)) || '';
+      card.innerHTML = `
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          ${flagUrl ? `<img src="${flagUrl}" alt="${c.name} flag" style="width:72px;height:48px;object-fit:cover;border-radius:6px;border:1px solid var(--border)">` : ''}
+          <div class="flex-grow-1">
+            <h6 class="mb-1"><i class="fas fa-trophy me-2" style="color:var(--primary)"></i>${c.name} - Host of APEX FORCE ESPORT CS2 League</h6>
+            <p class="mb-0" style="color:var(--text-secondary);font-size:0.85rem">
+              Capital: ${c.capital || 'N/A'} &bull; Region: ${c.subregion || c.region} &bull; Population: ${(c.population || 0).toLocaleString()}<br>
+              Languages: ${languages}
+            </p>
+          </div>
+          <span class="badge" style="background:rgba(255,107,0,0.15);color:var(--primary);font-size:0.7rem">via countries.dev API</span>
+        </div>`;
+    },
+    error: function() {
+      card.innerHTML = '<p style="color:var(--danger);margin:0">Failed to load country info from countries.dev API.</p>';
+    }
+  });
+}
+loadLeagueCountryInfo();
+
 
 function saveProfile(e) {
   e.preventDefault();
