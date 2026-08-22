@@ -69,7 +69,7 @@ function handleLogin(e) {
 function handleRegister(e) {
   e.preventDefault();
   const username = document.getElementById('regUser').value.trim();
-  const email = document.getElementById('regEmail').value.trim();
+  const email = document.g=etElementById('regEmail').value.trim();
   const pass = document.getElementById('regPass').value;
   const pass2 = document.getElementById('regPass2').value;
   if (pass !== pass2) { showToast("Passwords do not match!", "error"); return; }
