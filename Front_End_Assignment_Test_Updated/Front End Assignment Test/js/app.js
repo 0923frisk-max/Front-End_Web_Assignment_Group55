@@ -454,18 +454,33 @@ function renderRoleStatsChart() {
     }
   };
 
-  const url = 'https://quickchart.io/chart?width=900&height=420&devicePixelRatio=2&backgroundColor=%2312161f&format=png&c=' + encodeURIComponent(JSON.stringify(chartConfig));
+  const quickChartURL = 'https://quickchart.io/chart?width=900&height=420&devicePixelRatio=2&backgroundColor=%2312161f&format=png&c=';
+  const url = quickChartURL + encodeURIComponent(JSON.stringify(chartConfig));
 
-  if (msgEl) { msgEl.style.display = 'block'; msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading chart from QuickChart.io API...'; }
+  if (msgEl) { msgEl.style.display = 'block'; 
+    msgEl.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Loading chart from QuickChart.io API...'; 
+  }
   img.style.display = 'none';
-  img.onload = function() {
-    if (msgEl) msgEl.style.display = 'none';
-    img.style.display = 'inline-block';
-  };
-  img.onerror = function() {
-    if (msgEl) msgEl.innerHTML = '<span style="color:var(--danger)">Failed to load chart from QuickChart.io API.</span>';
-  };
-  img.src = url;
+
+  $.ajax({
+    url: url,
+    method: 'GET',
+    xhrFields: { responseType: 'blob' }, // tell jQuery to hand back a raw Blob instead of trying to parse text/JSON
+    success: function(blob) {
+      // Clean up the previous object URL so we don't leak memory across re-renders
+      if (window._roleChartObjectUrl) URL.revokeObjectURL(window._roleChartObjectUrl);
+      const objectUrl = URL.createObjectURL(blob);
+      window._roleChartObjectUrl = objectUrl;
+      img.onload = function() {
+        if (msgEl) msgEl.style.display = 'none';
+        img.style.display = 'inline-block';
+      };
+      img.src = objectUrl;
+    },
+    error: function() {
+      if (msgEl) msgEl.innerHTML = '<span style="color:var(--danger)">Failed to load chart from QuickChart.io API.</span>';
+    }
+  });
 }
 renderRoleStatsChart();
 
@@ -819,42 +834,6 @@ function renderFavoritePlayers() {
   }).join('') + '</div>';
 }
 
-
-function updatePlayerHeader() {
-  const playerCountEl = document.getElementById('headerPlayerCount');
-  const teamCountEl = document.getElementById('headerTeamCount');
-
-  if (playerCountEl && teamCountEl) {
-    const totalPlayers = PLAYERS.length;
-
-    const uniqueTeams = new Set(
-      PLAYERS
-        .map(p => p.team)
-        .filter(teamName => teamName !== "" && teamName.toLowerCase() !== "no team")
-    );
-
-    playerCountEl.textContent = totalPlayers;
-    teamCountEl.textContent = uniqueTeams.size;
-  }
-}
-
-function renderFavoritePlayers() {
-  const el = document.getElementById('favPlayersList');
-  if (!el) return;
-  const favs = getLS('cs2_favPlayers', []);
-  const favPlayers = PLAYERS.filter(p => favs.includes(p.id));
-  if (favPlayers.length === 0) {
-    el.innerHTML = '<div class="text-center py-5" style="color:var(--text-secondary)"><i class="fas fa-star" style="font-size:3rem;color:var(--border)"></i><p class="mt-3">No favorite players yet. Browse players and click the star to save them!</p><a href="players.html" class="btn-outline-custom">Browse Players</a></div>';
-    return;
-  }
-  el.innerHTML = '<div class="row g-3">' + favPlayers.map(p => {
-    return `<div class="col-md-6"><div class="card-custom d-flex align-items-center gap-3">
-      <img src="${p.avatar}" style="width:56px;height:56px;border-radius:50%;object-fit:cover">
-      <div class="flex-grow-1"><h6 class="mb-1">${p.nick}</h6><small style="color:var(--text-secondary)">${p.team || 'No Team'} • ${p.role}</small></div>
-      <button class="btn btn-sm" style="color:var(--danger)" onclick="toggleFavoritePlayer(${p.id})"><i class="fas fa-trash"></i></button>
-    </div></div>`;
-  }).join('') + '</div>';
-}
 
 function updatePlayerHeader() {
   const playerCountEl = document.getElementById('headerPlayerCount');
